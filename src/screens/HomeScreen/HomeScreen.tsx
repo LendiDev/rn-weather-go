@@ -1,10 +1,13 @@
-import {Text, View} from 'react-native';
+import {Text} from 'react-native';
 import {HomeScreenProps} from '../../types';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {HomeHeader} from './components';
 
 export const HomeScreen = ({}: HomeScreenProps): JSX.Element => {
   return (
-    <View>
+    <SafeAreaView>
+      <HomeHeader />
       <Text>Home Screen</Text>
-    </View>
+    </SafeAreaView>
   );
 };
