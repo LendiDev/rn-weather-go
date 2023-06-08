@@ -1,8 +1,11 @@
+/* eslint-disable react-native/no-inline-styles */
 import {NavigationContainer} from '@react-navigation/native';
 import {MainNavigation} from './navigation/MainNavigation';
 import {StatusBar, StatusBarStyle, useColorScheme} from 'react-native';
 import {MainTheme, MainThemeDark} from './themes/MainTheme';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {Provider} from 'react-redux';
+import {store} from './store/store';
 
 function App(): JSX.Element {
   const scheme = useColorScheme();
@@ -11,15 +14,17 @@ function App(): JSX.Element {
     scheme === 'dark' ? 'light-content' : 'dark-content';
 
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
-      <NavigationContainer theme={theme}>
-        <StatusBar
-          backgroundColor={theme.colors.background}
-          barStyle={statusBarStyle}
-        />
-        <MainNavigation />
-      </NavigationContainer>
-    </GestureHandlerRootView>
+    <Provider store={store}>
+      <GestureHandlerRootView style={{flex: 1}}>
+        <NavigationContainer theme={theme}>
+          <StatusBar
+            backgroundColor={theme.colors.background}
+            barStyle={statusBarStyle}
+          />
+          <MainNavigation />
+        </NavigationContainer>
+      </GestureHandlerRootView>
+    </Provider>
   );
 }
 

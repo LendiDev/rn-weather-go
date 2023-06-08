@@ -7,6 +7,7 @@ export const useStyles = () => {
 
   const styles = StyleSheet.create({
     root: {
+      flex: 1,
       borderRadius: 10,
       marginVertical: MARGIN_VERTICAL * 1.5,
       paddingHorizontal: PADDING_HORIZONTAL,
