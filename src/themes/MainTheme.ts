@@ -5,7 +5,7 @@ export const MainTheme: MyTheme = {
   dark: false,
   colors: {
     ...DefaultTheme.colors,
-    primary: 'rgb(255, 45, 85)',
+    primary: '#F48225',
     background: 'rgb(242, 242, 242)',
     text: '#000',
   },

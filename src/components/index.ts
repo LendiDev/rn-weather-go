@@ -1,3 +1,5 @@
 import Text from './Text/Text';
+import SearchBar from './SearchBar/SearchBar';
+import Separator from './Separator/Separator';
 
-export {Text};
+export {Text, SearchBar, Separator};

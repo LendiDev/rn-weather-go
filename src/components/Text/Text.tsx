@@ -1,26 +1,27 @@
 import {
-  Text as GenericText,
+  Text as RNText,
   StyleProp,
   StyleSheet,
-  TextProps,
+  TextProps as RNTextProps,
   TextStyle,
 } from 'react-native';
 import {MyThemeColorsKeys} from '../../types';
 import {useTypedTheme} from '../../hooks/useTypedTheme';
 
-interface RNTextProps extends TextProps {
+interface TextProps extends RNTextProps {
   p?: boolean;
   h1?: boolean;
   h2?: boolean;
   bold?: boolean;
   italic?: boolean;
   color?: MyThemeColorsKeys;
+  fontSize?: TextStyle['fontSize'];
   style?: StyleProp<TextStyle> | Array<StyleProp<TextStyle>>;
   children?: React.ReactNode;
   value?: string;
 }
 
-const Text: React.FC<RNTextProps> = ({
+const Text: React.FC<TextProps> = ({
   p,
   h1,
   h2,
@@ -28,33 +29,34 @@ const Text: React.FC<RNTextProps> = ({
   italic,
   style,
   color,
+  fontSize,
   children,
   value,
 }) => {
   const {colors} = useTypedTheme();
 
-  const styles = StyleSheet.flatten<TextStyle>([
-    h1 && {fontSize: 32},
-    h2 && {fontSize: 28},
-    p && {fontSize: 18},
-    bold && {fontWeight: 'bold'},
-    italic && {fontStyle: 'italic'},
-    color && {color: colors[color]},
-  ]);
+  const styles = {
+    default: StyleSheet.flatten<TextStyle>({
+      fontSize: 14,
+      fontWeight: 'normal',
+      color: colors.text,
+    }),
+    override: StyleSheet.flatten<TextStyle>([
+      h1 && {fontSize: 24},
+      h2 && {fontSize: 18},
+      p && {fontSize: 14},
+      fontSize !== undefined && {fontSize},
+      bold && {fontWeight: 'bold'},
+      italic && {fontStyle: 'italic'},
+      color && {color: colors[color]},
+    ]),
+  };
 
   return (
-    <GenericText style={[defaultStyles.default, styles, style]}>
+    <RNText style={[styles.default, styles.override, style]}>
       {children || value}
-    </GenericText>
+    </RNText>
   );
 };
-
-const defaultStyles = StyleSheet.create({
-  default: {
-    fontSize: 18,
-    fontWeight: '500',
-    color: '#000',
-  },
-});
 
 export default Text;
