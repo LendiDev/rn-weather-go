@@ -1,12 +1,13 @@
-import {Text, View} from 'react-native';
+import {View} from 'react-native';
 import {useStyles} from './HomeHeader.styles';
+import {Text} from '../../../../components';
 
 export const HomeHeader = () => {
   const styles = useStyles();
 
   return (
     <View style={styles.root}>
-      <Text>I am header</Text>
+      <Text h1>Children text</Text>
     </View>
   );
 };

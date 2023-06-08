@@ -7,6 +7,7 @@ export const MainTheme: MyTheme = {
     ...DefaultTheme.colors,
     primary: 'rgb(255, 45, 85)',
     background: 'rgb(242, 242, 242)',
+    text: '#000',
   },
 };
 
@@ -15,6 +16,7 @@ export const MainThemeDark: MyTheme = {
   colors: {
     ...DefaultTheme.colors,
     primary: 'orange',
-    background: 'rgb(242, 242, 242)',
+    background: '#121212',
+    text: '#fff',
   },
 };

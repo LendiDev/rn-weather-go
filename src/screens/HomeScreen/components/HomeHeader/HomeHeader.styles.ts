@@ -6,7 +6,7 @@ export const useStyles = () => {
 
   const styles = StyleSheet.create({
     root: {
-      backgroundColor: colors.primary,
+      backgroundColor: colors.background,
     },
   });
 
