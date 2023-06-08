@@ -13,14 +13,14 @@ const ListItem = ({item, index}: {item: Location; index: number}) => {
   const {selectLocation} = useActions();
 
   const handleLocationSelection = () => {
-    selectLocation(item.id);
+    selectLocation(item);
   };
 
   return (
     <TouchableOpacity
-      style={[styles.root, item.id === selectedLocation && styles.active]}
+      style={[styles.root, item.id === selectedLocation.id && styles.active]}
       onPress={handleLocationSelection}
-      disabled={item.id === selectedLocation}>
+      disabled={item.id === selectedLocation.id}>
       <Text>
         {index} {item.name}
       </Text>

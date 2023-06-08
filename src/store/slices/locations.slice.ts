@@ -6,12 +6,12 @@ export interface Location {
 }
 
 export interface Locations {
-  selectedLocation: number;
+  selectedLocation: Location;
   saved: Location[];
 }
 
 const initialState: Locations = {
-  selectedLocation: 0,
+  selectedLocation: {id: 0, name: 'London, UK'},
   saved: [
     {id: 0, name: 'London, UK'},
     {id: 1, name: 'Paris, Francee'},
@@ -26,7 +26,7 @@ const locationsSlice = createSlice({
   name: 'locations',
   initialState,
   reducers: {
-    selectLocation: (state, action: PayloadAction<number>) => {
+    selectLocation: (state, action: PayloadAction<Location>) => {
       state.selectedLocation = action.payload;
     },
   },
