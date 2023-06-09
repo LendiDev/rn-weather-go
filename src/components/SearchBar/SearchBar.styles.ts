@@ -19,6 +19,14 @@ export const useStyles = () => {
       paddingHorizontal: PADDING_HORIZONTAL,
       borderRadius: 12,
     },
+    pressArea: {
+      bottom: 0,
+      top: 0,
+      left: 0,
+      right: 0,
+      marginHorizontal: MARGIN_HORIZONTAL,
+      position: 'absolute',
+    },
   });
 
   return styles;
