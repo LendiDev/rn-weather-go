@@ -8,7 +8,7 @@ export const useStyles = () => {
     root: {},
     contentContainer: {
       marginLeft: MARGIN_HORIZONTAL,
-      paddingRight: MARGIN_HORIZONTAL * 1.5,
+      paddingRight: MARGIN_HORIZONTAL * 2,
     },
   });
 };

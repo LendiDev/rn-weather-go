@@ -16,11 +16,15 @@
     "@reduxjs/toolkit": "^1.9.5",
     "react": "18.2.0",
     "react-native": "0.71.10",
+    "react-native-flipper": "^0.194.0",
     "react-native-gesture-handler": "^2.11.0",
+    "react-native-mmkv": "^2.8.0",
     "react-native-reanimated": "^3.2.0",
     "react-native-safe-area-context": "^4.5.3",
     "react-native-screens": "^3.20.0",
-    "react-redux": "^8.0.7"
+    "react-redux": "^8.0.7",
+    "redux-flipper": "^2.0.2",
+    "redux-persist": "^6.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
