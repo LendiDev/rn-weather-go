@@ -26,8 +26,8 @@ const locationsSlice = createSlice({
   name: 'locations',
   initialState,
   reducers: {
-    selectLocation: (state, action: PayloadAction<Location>) => {
-      state.selectedLocation = action.payload;
+    selectLocation: (state, {payload: location}: PayloadAction<Location>) => {
+      state.selectedLocation = location;
     },
   },
 });
