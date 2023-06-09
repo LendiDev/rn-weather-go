@@ -6,13 +6,13 @@ import {useTypedSelector} from '../../../../../hooks/useTypedSelector';
 
 const LocationsList = () => {
   const styles = useStyles();
-  const savedLocations = useTypedSelector(state => state.locations.saved);
+  const savedLocation = useTypedSelector(state => state.locations.saved);
 
   return (
     <FlatList
       style={styles.root}
       contentContainerStyle={styles.contentContainer}
-      data={savedLocations}
+      data={savedLocation}
       renderItem={({item, index}) => <ListItem item={item} index={index} />}
       horizontal={true}
       ItemSeparatorComponent={() => Separator({width: 5})}

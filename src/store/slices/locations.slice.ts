@@ -14,11 +14,11 @@ const initialState: Locations = {
   selectedLocation: {id: 0, name: 'London, UK'},
   saved: [
     {id: 0, name: 'London, UK'},
-    {id: 1, name: 'Paris, Francee'},
-    {id: 2, name: 'Paris, Frances'},
-    {id: 3, name: 'Paris, Francesd'},
-    {id: 4, name: 'Paris, Francesd'},
-    {id: 5, name: 'Paris, Francedsds'},
+    {id: 1, name: 'Visaginas, Lithuania'},
+    {id: 2, name: 'Manchester, UK'},
+    {id: 3, name: 'Paris, France'},
+    {id: 4, name: 'Block, Africa'},
+    {id: 5, name: 'Bangkok, Thailand'},
   ],
 };
 

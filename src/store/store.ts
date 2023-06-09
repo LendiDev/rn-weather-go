@@ -9,14 +9,13 @@ import {
   PAUSE,
   PERSIST,
   PURGE,
-  PersistConfig,
   REGISTER,
   REHYDRATE,
   persistReducer,
 } from 'redux-persist';
 import {reduxStorage} from './storage';
 
-const persistConfig: PersistConfig<any> = {
+const persistConfig = {
   key: 'root',
   version: 1,
   storage: reduxStorage,
@@ -47,3 +46,4 @@ export const store = configureStore({
 });
 
 export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
