@@ -15,6 +15,7 @@ import {
 } from 'redux-persist';
 import {reduxStorage} from './storage';
 import {autocompleteApi} from './api/locationSuggestions.api';
+import {geocodeApi} from './api/locationGeocode.api';
 
 const persistConfig = {
   key: 'root',
@@ -22,7 +23,10 @@ const persistConfig = {
   storage: reduxStorage,
   whitelist: ['locations'],
 };
-const middlewares: ThunkMiddleware[] = [autocompleteApi.middleware];
+const middlewares: ThunkMiddleware[] = [
+  autocompleteApi.middleware,
+  geocodeApi.middleware,
+];
 
 if (__DEV__) {
   const createDebugger = require('redux-flipper').default;
@@ -32,6 +36,7 @@ if (__DEV__) {
 const reducers = combineReducers({
   locations: locationsReducer,
   [autocompleteApi.reducerPath]: autocompleteApi.reducer,
+  [geocodeApi.reducerPath]: geocodeApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);

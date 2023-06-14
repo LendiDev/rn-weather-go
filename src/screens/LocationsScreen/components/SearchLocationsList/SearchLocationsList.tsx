@@ -3,8 +3,12 @@ import Animated from 'react-native-reanimated';
 import {useStyles} from './SearchLocationsList.styles';
 import {Text, View} from 'react-native';
 import {useGetLocationsQuery} from '../../../../store/api/locationSuggestions.api';
+import {FlatList} from 'react-native-gesture-handler';
+import {Suggestion} from '../../../../types/hereAPI.types';
 
-const MIN_CHARS_START_SEARCH = 1;
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList<Suggestion>);
+
+const MIN_CHARS_START_SEARCH = 2;
 
 interface SearchLocationsListProps {
   searchTerm: string;
@@ -24,27 +28,30 @@ const SearchLocationsList: React.FC<SearchLocationsListProps> = ({
       debouncedSearchTerm !== searchTerm,
   });
 
-  const suggestions = locations?.suggestions || [];
+  const suggestions =
+    searchTerm.length >= MIN_CHARS_START_SEARCH
+      ? locations?.suggestions || []
+      : [];
+
   const lastItemIndex = suggestions.length - 1;
 
   return (
     <View>
       {error && <Text>{error.toString()}</Text>}
-      {suggestions.length > 0 &&
-        searchTerm.length >= MIN_CHARS_START_SEARCH && (
-          <Animated.FlatList
-            contentContainerStyle={styles.contentContainer}
-            keyExtractor={item => item.locationId}
-            data={suggestions}
-            renderItem={({item, index}) => (
-              <SearchLocationsItem
-                index={index}
-                item={item}
-                lastItemIndex={lastItemIndex}
-              />
-            )}
-          />
-        )}
+      {suggestions && (
+        <AnimatedFlatList
+          contentContainerStyle={styles.contentContainer}
+          keyExtractor={item => item.locationId}
+          data={suggestions}
+          renderItem={({item, index}) => (
+            <SearchLocationsItem
+              index={index}
+              item={item}
+              lastItemIndex={lastItemIndex}
+            />
+          )}
+        />
+      )}
     </View>
   );
 };

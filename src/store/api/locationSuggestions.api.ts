@@ -1,5 +1,5 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
-import {HereLocationSuggestions} from '../../types/locations.types';
+import {HereLocationSuggestions} from '../../types/hereAPI.types';
 import {LOCATION_AUTOCOMPLETE_API_URL, HERE_API_KEY} from '@env';
 import {REHYDRATE} from 'redux-persist';
 

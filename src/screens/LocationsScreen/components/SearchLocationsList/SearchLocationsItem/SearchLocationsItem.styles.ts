@@ -7,13 +7,13 @@ export const useStyles = () => {
   return StyleSheet.create({
     mainContainer: {
       flex: 1,
-      paddingLeft: PADDING_HORIZONTAL,
     },
     labelText: {
       paddingVertical: PADDING_VERTICAL * 3,
-      paddingRight: PADDING_HORIZONTAL,
+      paddingHorizontal: PADDING_HORIZONTAL,
     },
     separatorLine: {
+      marginLeft: PADDING_HORIZONTAL,
       borderBottomWidth: 1,
       borderColor: '#ddd',
     },
