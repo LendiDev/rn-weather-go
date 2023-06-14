@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
 import {useTypedTheme} from '../../../../hooks/useTypedTheme';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {MAIN_HEADER_HEIGHT} from '../../../../constants';
+import {MAIN_HEADER_HEIGHT, MARGIN_HORIZONTAL} from '../../../../constants';
 
 export const useStyles = () => {
   const {colors} = useTypedTheme();
@@ -22,6 +22,9 @@ export const useStyles = () => {
     },
     halfContainer: {
       flex: 1,
+    },
+    searchBarContainer: {
+      marginHorizontal: MARGIN_HORIZONTAL,
     },
   });
 

@@ -46,7 +46,7 @@ const LocationsList = () => {
       if (savedLocation.length !== 0) {
         scrollToSelectedLocationIndex(error);
       }
-    }, 100);
+    }, 50);
   };
 
   return (

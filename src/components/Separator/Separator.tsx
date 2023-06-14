@@ -1,7 +1,12 @@
 import {View} from 'react-native';
 
-const Separator: React.FC<{width: number}> = ({width = 0}) => {
-  return <View style={{width}} />;
+interface SeparatorProps {
+  width?: number;
+  height?: number;
+}
+
+const Separator: React.FC<SeparatorProps> = ({width = 0, height = 0}) => {
+  return <View style={{width, height}} />;
 };
 
 export default Separator;

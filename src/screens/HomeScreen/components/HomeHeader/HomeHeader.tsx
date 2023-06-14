@@ -19,7 +19,7 @@ export const HomeHeader = () => {
 
   return (
     <View style={styles.root}>
-      <View style={styles.halfContainer}>
+      <View style={[styles.halfContainer, styles.searchBarContainer]}>
         <SearchBar
           value={selectedLocation.name}
           onPressAction={handleSearchBarPress}

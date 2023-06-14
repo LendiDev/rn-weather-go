@@ -14,6 +14,7 @@ import {
   persistReducer,
 } from 'redux-persist';
 import {reduxStorage} from './storage';
+import {autocompleteApi} from './api/locations.api';
 
 const persistConfig = {
   key: 'root',
@@ -21,7 +22,7 @@ const persistConfig = {
   storage: reduxStorage,
   whitelist: ['locations'],
 };
-const middlewares: ThunkMiddleware[] = [];
+const middlewares: ThunkMiddleware[] = [autocompleteApi.middleware];
 
 if (__DEV__) {
   const createDebugger = require('redux-flipper').default;
@@ -30,6 +31,7 @@ if (__DEV__) {
 
 const reducers = combineReducers({
   locations: locationsReducer,
+  [autocompleteApi.reducerPath]: autocompleteApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);

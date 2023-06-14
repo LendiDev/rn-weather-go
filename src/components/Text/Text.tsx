@@ -13,6 +13,7 @@ interface TextProps extends RNTextProps {
   h1?: boolean;
   h2?: boolean;
   bold?: boolean;
+  weight?: TextStyle['fontWeight'];
   italic?: boolean;
   color?: MyThemeColorsKeys;
   fontSize?: TextStyle['fontSize'];
@@ -26,6 +27,7 @@ const Text: React.FC<TextProps> = ({
   h1,
   h2,
   bold,
+  weight,
   italic,
   style,
   color,
@@ -47,6 +49,7 @@ const Text: React.FC<TextProps> = ({
       p && {fontSize: 14},
       fontSize !== undefined && {fontSize},
       bold && {fontWeight: 'bold'},
+      weight && {fontWeight: weight},
       italic && {fontStyle: 'italic'},
       color && {color: colors[color]},
     ]),
