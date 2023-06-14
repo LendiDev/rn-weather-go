@@ -2,7 +2,7 @@ import SearchLocationsItem from './SearchLocationsItem/SearchLocationsItem';
 import Animated from 'react-native-reanimated';
 import {useStyles} from './SearchLocationsList.styles';
 import {Text, View} from 'react-native';
-import {useGetLocationsQuery} from '../../../../store/api/locations.api';
+import {useGetLocationsQuery} from '../../../../store/api/locationSuggestions.api';
 
 const MIN_CHARS_START_SEARCH = 1;
 

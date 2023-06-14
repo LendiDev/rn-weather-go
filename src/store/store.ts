@@ -14,7 +14,7 @@ import {
   persistReducer,
 } from 'redux-persist';
 import {reduxStorage} from './storage';
-import {autocompleteApi} from './api/locations.api';
+import {autocompleteApi} from './api/locationSuggestions.api';
 
 const persistConfig = {
   key: 'root',
