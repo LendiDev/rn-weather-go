@@ -1,16 +1,7 @@
-import {
-  Keyboard,
-  Platform,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Keyboard, TextInput, TouchableOpacity, View} from 'react-native';
 import {useStyles} from './SearchBar.styles';
 import {useState} from 'react';
-import Animated, {SlideInRight} from 'react-native-reanimated';
 import Text from '../Text/Text';
-
-const CANCEL_BUTTON_ANIMATION_MS = Platform.OS === 'ios' ? 200 : 50;
 
 interface SearchBarProps {
   value?: string;
@@ -68,14 +59,13 @@ const SearchBar: React.FC<SearchBarProps> = ({
       )}
 
       {isEditing && !onPressAction && (
-        <Animated.View
-          entering={SlideInRight.duration(CANCEL_BUTTON_ANIMATION_MS)}>
+        <View>
           <TouchableOpacity
             style={styles.cancelButton}
             onPress={handleSearchCancel}>
             <Text>Cancel</Text>
           </TouchableOpacity>
-        </Animated.View>
+        </View>
       )}
     </>
   );
