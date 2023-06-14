@@ -5,6 +5,10 @@ import {Text, View} from 'react-native';
 import {useGetLocationsQuery} from '../../../../store/api/locationSuggestions.api';
 import {FlatList} from 'react-native-gesture-handler';
 import {Suggestion} from '../../../../types/hereAPI.types';
+import {useActions} from '../../../../hooks/useActions';
+import {useLazyGetCoordinatesByIdQuery} from '../../../../store/api/locationGeocode.api';
+import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
+import {Location} from '../../../../types';
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList<Suggestion>);
 
@@ -20,6 +24,11 @@ const SearchLocationsList: React.FC<SearchLocationsListProps> = ({
   searchTerm,
 }) => {
   const styles = useStyles();
+  const {addLocation} = useActions();
+  const [getCoordinates] = useLazyGetCoordinatesByIdQuery();
+  const {setIsSearching} = useActions();
+  // TODO: Fix type
+  const navigation = useNavigation<CompositeNavigationProp<any, any>>();
 
   const {data: locations, error} = useGetLocationsQuery(debouncedSearchTerm, {
     skip:
@@ -27,6 +36,31 @@ const SearchLocationsList: React.FC<SearchLocationsListProps> = ({
       debouncedSearchTerm.length <= MIN_CHARS_START_SEARCH &&
       debouncedSearchTerm !== searchTerm,
   });
+
+  const handleLocationPressed = (item: Suggestion) => {
+    getCoordinates(item.locationId)
+      .unwrap()
+      .then(coordinates => {
+        const labelArray = item.label.split(', ');
+        const displayName = labelArray[0];
+        labelArray.shift();
+        const additionalInfo = labelArray.join(', ');
+
+        const locationDetails: Location = {
+          id: item.locationId,
+          displayName,
+          additionalInfo,
+          coordinates,
+        };
+
+        addLocation(locationDetails);
+        setIsSearching(false);
+        navigation.navigate('Home');
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
+  };
 
   const suggestions =
     searchTerm.length >= MIN_CHARS_START_SEARCH
@@ -48,6 +82,7 @@ const SearchLocationsList: React.FC<SearchLocationsListProps> = ({
               index={index}
               item={item}
               lastItemIndex={lastItemIndex}
+              handleLocationPressed={handleLocationPressed}
             />
           )}
         />

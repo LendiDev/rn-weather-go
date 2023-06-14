@@ -3,8 +3,9 @@ import {useStyles} from './HomeHeader.styles';
 import {SearchBar} from '../../../../components';
 import LocationsList from './LocationsList/LocationsList';
 import {useTypedSelector} from '../../../../hooks/useTypedSelector';
+import React from 'react';
 
-export const HomeHeader = () => {
+export const HomeHeader: React.FC = () => {
   const styles = useStyles();
   const {selectedLocation} = useTypedSelector(state => state.locations);
 

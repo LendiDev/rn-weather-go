@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {BORDER_RADIUS, PADDING_HORIZONTAL} from '../../../../constants';
+import {BORDER_RADIUS, MARGIN_VERTICAL} from '../../../../constants';
 import {useTypedTheme} from '../../../../hooks/useTypedTheme';
 
 export const useStyles = () => {
@@ -7,7 +7,7 @@ export const useStyles = () => {
 
   return StyleSheet.create({
     contentContainer: {
-      marginTop: PADDING_HORIZONTAL,
+      marginTop: MARGIN_VERTICAL * 3,
       backgroundColor: colors.card,
       borderRadius: BORDER_RADIUS,
     },

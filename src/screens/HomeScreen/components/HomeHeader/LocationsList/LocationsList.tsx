@@ -12,7 +12,7 @@ interface ScrollError {
   averageItemLength: number;
 }
 
-const LocationsList = () => {
+const LocationsList: React.FC = () => {
   const styles = useStyles();
   const {saved: savedLocation, selectedLocation} = useTypedSelector(
     state => state.locations,
