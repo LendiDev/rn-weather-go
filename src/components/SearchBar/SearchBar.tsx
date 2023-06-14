@@ -1,7 +1,9 @@
 import {Keyboard, TextInput, TouchableOpacity, View} from 'react-native';
 import {useStyles} from './SearchBar.styles';
-import {useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import Text from '../Text/Text';
+import {useTypedSelector} from '../../hooks/useTypedSelector';
+import {useActions} from '../../hooks/useActions';
 
 interface SearchBarProps {
   value?: string;
@@ -17,25 +19,35 @@ const SearchBar: React.FC<SearchBarProps> = ({
   onPressAction,
 }) => {
   const [searchTerm, setSearchTerm] = useState(value);
-  const [isEditing, setIsEditing] = useState(false);
+  const {isSearching} = useTypedSelector(
+    state => state.screens.locationsScreen,
+  );
+  const {setIsSearching} = useActions();
   const styles = useStyles();
 
-  const handleSearch = (text: string) => {
-    if (setSearchValue) {
-      setSearchValue(text);
-    }
+  const handleSearch = useCallback(
+    (text: string) => {
+      if (setSearchValue) {
+        setSearchValue(text);
+      }
+      setSearchTerm(text);
+    },
+    [setSearchValue],
+  );
 
-    setSearchTerm(text);
-  };
+  useEffect(() => {
+    if (!isSearching) {
+      handleSearch('');
+      Keyboard.dismiss();
+    }
+  }, [handleSearch, isSearching]);
 
   const handleSearchCancel = () => {
-    handleSearch('');
-    setIsEditing(false);
-    Keyboard.dismiss();
+    setIsSearching(false);
   };
 
   const handleSearchStartEditing = () => {
-    setIsEditing(true);
+    setIsSearching(true);
   };
 
   return (
@@ -58,7 +70,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
         </>
       )}
 
-      {isEditing && !onPressAction && (
+      {isSearching && !onPressAction && (
         <View>
           <TouchableOpacity
             style={styles.cancelButton}

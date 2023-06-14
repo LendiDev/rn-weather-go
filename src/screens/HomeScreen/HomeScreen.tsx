@@ -12,7 +12,13 @@ export const HomeScreen = ({}: HomeScreenProps): JSX.Element => {
   return (
     <>
       <View style={styles.root}>
-        <Text>{`Selected location: ${selectedLocation.id}, ${selectedLocation.name}`}</Text>
+        {selectedLocation ? (
+          <Text>
+            Selected location: {JSON.stringify(selectedLocation, null, 4)}
+          </Text>
+        ) : (
+          <Text>No location selected</Text>
+        )}
       </View>
       <HomeHeader />
     </>

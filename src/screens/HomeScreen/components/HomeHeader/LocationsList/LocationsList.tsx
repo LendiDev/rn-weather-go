@@ -4,7 +4,7 @@ import {useStyles} from './LocationsList.styles';
 import {Separator} from '../../../../../components';
 import {useTypedSelector} from '../../../../../hooks/useTypedSelector';
 import {useEffect, useRef} from 'react';
-import {Location} from '../../../../../store/slices/locations.slice';
+import {Location} from '../../../../../types';
 
 interface ScrollError {
   index: number;
@@ -21,13 +21,19 @@ const LocationsList = () => {
   const listRef = useRef<FlatList<Location>>(null);
 
   useEffect(() => {
-    scrollToSelectedLocationIndex();
+    if (savedLocation.length > 0) {
+      scrollToSelectedLocationIndex();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [selectedLocation]);
 
   const scrollToSelectedLocationIndex = (error?: ScrollError) => {
     listRef.current?.scrollToIndex({
-      index: error ? error.index : selectedLocation.id,
+      index: error
+        ? error.index
+        : savedLocation.findIndex(
+            location => location.id === selectedLocation?.id,
+          ),
       viewPosition: 0.5,
     });
   };

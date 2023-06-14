@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View} from 'react-native';
 import {SearchBar} from '../../components';
 import {useStyles} from './LocationsScreen.styles';
-import {SearchLocationsList} from './components/SearchLocationsList';
+import {SearchLocationsList} from './components/';
 import {useDebounce} from '../../hooks/useDebounce';
 
 const LocationsScreen: React.FC = () => {

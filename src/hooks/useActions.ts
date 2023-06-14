@@ -1,10 +1,12 @@
 import {bindActionCreators} from '@reduxjs/toolkit';
 import {useMemo} from 'react';
 import {useDispatch} from 'react-redux';
-import {actions as locationsActions} from '../store/slices/locations.slice';
+import {actions as locationsActions} from '../store/locations/locations.slice';
+import {locationsScreen} from '../store/screens/locationsScreen.slices';
 
 const rootActions = {
   ...locationsActions,
+  ...locationsScreen.actions,
 };
 
 export const useActions = () => {

@@ -21,7 +21,7 @@ export const HomeHeader = () => {
     <View style={styles.root}>
       <View style={[styles.halfContainer, styles.searchBarContainer]}>
         <SearchBar
-          value={selectedLocation.name}
+          value={selectedLocation?.displayName}
           onPressAction={handleSearchBarPress}
         />
       </View>

@@ -3,7 +3,7 @@ import {
   combineReducers,
   configureStore,
 } from '@reduxjs/toolkit';
-import {reducer as locationsReducer} from './slices/locations.slice';
+import {reducer as locationsReducer} from './locations/locations.slice';
 import {
   FLUSH,
   PAUSE,
@@ -16,10 +16,11 @@ import {
 import {reduxStorage} from './storage';
 import {autocompleteApi} from './api/locationSuggestions.api';
 import {geocodeApi} from './api/locationGeocode.api';
+import {locationsScreen} from './screens/locationsScreen.slices';
 
 const persistConfig = {
   key: 'root',
-  version: 1,
+  version: 2,
   storage: reduxStorage,
   whitelist: ['locations'],
 };
@@ -37,6 +38,9 @@ const reducers = combineReducers({
   locations: locationsReducer,
   [autocompleteApi.reducerPath]: autocompleteApi.reducer,
   [geocodeApi.reducerPath]: geocodeApi.reducer,
+  screens: combineReducers({
+    locationsScreen: locationsScreen.reducer,
+  }),
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);

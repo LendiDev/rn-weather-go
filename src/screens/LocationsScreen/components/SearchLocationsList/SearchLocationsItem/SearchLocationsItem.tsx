@@ -2,9 +2,12 @@ import {Suggestion} from '../../../../../types/hereAPI.types';
 import {Text} from '../../../../../components';
 import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
 import {useStyles} from './SearchLocationsItem.styles';
-import {Alert, View} from 'react-native';
+import {View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {useLazyGetLocationCoordinatesQuery} from '../../../../../store/api/locationGeocode.api';
+import {useLazyGetCoordinatesByIdQuery} from '../../../../../store/api/locationGeocode.api';
+import {Location} from '../../../../../types';
+import {useActions} from '../../../../../hooks/useActions';
+import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
 
 interface SearchLocationsItemProps {
   index: number;
@@ -17,16 +20,34 @@ const SearchLocationsItem: React.FC<SearchLocationsItemProps> = ({
   index,
   lastItemIndex,
 }) => {
-  const [getGeocode] = useLazyGetLocationCoordinatesQuery();
+  const {addLocation} = useActions();
+  const [getCoordinates] = useLazyGetCoordinatesByIdQuery();
+  const {setIsSearching} = useActions();
   const styles = useStyles();
+  // TODO: Fix type
+  const navigation = useNavigation<CompositeNavigationProp<any, any>>();
 
   const isLastItem = index === lastItemIndex;
 
   const handleLocationPressed = () => {
-    getGeocode(item.locationId)
+    getCoordinates(item.locationId)
       .unwrap()
-      .then(data => {
-        Alert.alert(JSON.stringify({data, ...item}));
+      .then(coordinates => {
+        const labelArray = item.label.split(', ');
+        const displayName = labelArray[0];
+        labelArray.shift();
+        const additionalInfo = labelArray.join(', ');
+
+        const locationDetails: Location = {
+          id: item.locationId,
+          displayName,
+          additionalInfo,
+          coordinates,
+        };
+
+        addLocation(locationDetails);
+        setIsSearching(false);
+        navigation.navigate('Home');
       })
       .catch((error: any) => {
         console.log(error);

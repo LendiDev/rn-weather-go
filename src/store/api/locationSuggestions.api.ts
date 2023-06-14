@@ -1,7 +1,6 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {HereLocationSuggestions} from '../../types/hereAPI.types';
 import {LOCATION_AUTOCOMPLETE_API_URL, HERE_API_KEY} from '@env';
-import {REHYDRATE} from 'redux-persist';
 
 if (!LOCATION_AUTOCOMPLETE_API_URL) {
   throw Error('env LOCATION_AUTOCOMPLETE_API_URL not set');
@@ -17,11 +16,6 @@ export const autocompleteApi = createApi({
     baseUrl: LOCATION_AUTOCOMPLETE_API_URL,
   }),
   keepUnusedDataFor: 3600,
-  extractRehydrationInfo(action, {reducerPath}) {
-    if (action.type === REHYDRATE) {
-      return action.payload[reducerPath];
-    }
-  },
   endpoints: builder => ({
     getLocations: builder.query<HereLocationSuggestions, string>({
       query: searchTerm => ({

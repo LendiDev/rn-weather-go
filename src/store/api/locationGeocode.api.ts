@@ -1,7 +1,6 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {HereLocationGeocode} from '../../types/hereAPI.types';
 import {LOCATION_GEOCODE_API_URL, HERE_API_KEY} from '@env';
-import {REHYDRATE} from 'redux-persist';
 import {Coordinates} from '../../types/location.types';
 
 if (!LOCATION_GEOCODE_API_URL) {
@@ -14,13 +13,8 @@ export const geocodeApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: LOCATION_GEOCODE_API_URL,
   }),
-  extractRehydrationInfo(action, {reducerPath}) {
-    if (action.type === REHYDRATE) {
-      return action.payload[reducerPath];
-    }
-  },
   endpoints: builder => ({
-    getLocationCoordinates: builder.query<Coordinates, string>({
+    getCoordinatesById: builder.query<Coordinates, string>({
       query: locationId => ({
         url: '/geocode.json',
         method: 'GET',
@@ -43,4 +37,4 @@ export const geocodeApi = createApi({
   }),
 });
 
-export const {useLazyGetLocationCoordinatesQuery} = geocodeApi;
+export const {useLazyGetCoordinatesByIdQuery} = geocodeApi;
