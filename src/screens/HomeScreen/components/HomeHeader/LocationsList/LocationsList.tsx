@@ -3,8 +3,9 @@ import ListItem from './ListItem/ListItem';
 import {useStyles} from './LocationsList.styles';
 import {Separator} from '../../../../../components';
 import {useTypedSelector} from '../../../../../hooks/useTypedSelector';
-import {useEffect, useRef} from 'react';
+import {useCallback, useRef} from 'react';
 import {Location} from '../../../../../types';
+import {useFocusEffect} from '@react-navigation/native';
 
 interface ScrollError {
   index: number;
@@ -20,23 +21,31 @@ const LocationsList: React.FC = () => {
 
   const listRef = useRef<FlatList<Location>>(null);
 
-  useEffect(() => {
-    if (savedLocation.length > 0) {
-      scrollToSelectedLocationIndex();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedLocation]);
+  const scrollToSelectedLocationIndex = useCallback(
+    (error?: ScrollError) => {
+      const index = savedLocation.findIndex(
+        location => location.id === selectedLocation?.id,
+      );
 
-  const scrollToSelectedLocationIndex = (error?: ScrollError) => {
-    listRef.current?.scrollToIndex({
-      index: error
-        ? error.index
-        : savedLocation.findIndex(
-            location => location.id === selectedLocation?.id,
-          ),
-      viewPosition: 0.5,
-    });
-  };
+      listRef.current?.scrollToIndex({
+        index: error ? error.index : index > 0 ? index : 0,
+        viewPosition: 0.5,
+        animated: true,
+      });
+    },
+    [savedLocation, selectedLocation?.id],
+  );
+
+  // perform action once on focus
+  useFocusEffect(
+    useCallback(() => {
+      if (savedLocation.length > 0) {
+        const unsubscribe = scrollToSelectedLocationIndex();
+
+        return () => unsubscribe;
+      }
+    }, [savedLocation, scrollToSelectedLocationIndex]),
+  );
 
   const scrollToSelectedLocationOffset = (error: ScrollError) => {
     listRef.current?.scrollToOffset({
@@ -52,7 +61,7 @@ const LocationsList: React.FC = () => {
       if (savedLocation.length !== 0) {
         scrollToSelectedLocationIndex(error);
       }
-    }, 50);
+    }, 100);
   };
 
   return (
@@ -60,8 +69,15 @@ const LocationsList: React.FC = () => {
       ref={listRef}
       style={styles.root}
       contentContainerStyle={styles.contentContainer}
+      keyExtractor={item => item.id}
       data={savedLocation}
-      renderItem={({item, index}) => <ListItem item={item} index={index} />}
+      renderItem={({item, index}) => (
+        <ListItem
+          item={item}
+          index={index}
+          selectedLocation={selectedLocation}
+        />
+      )}
       onScrollToIndexFailed={handleScrollToIndexFailed}
       horizontal
       ItemSeparatorComponent={() => Separator({width: 5})}

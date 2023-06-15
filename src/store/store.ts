@@ -16,11 +16,11 @@ import {
 import {reduxStorage} from './storage';
 import {autocompleteApi} from './api/locationSuggestions.api';
 import {geocodeApi} from './api/locationGeocode.api';
-import {locationsScreen} from './screens/locationsScreen.slices';
+import {locationsScreen} from './screens/locationsScreen.slice';
 
 const persistConfig = {
   key: 'root',
-  version: 2,
+  version: 1,
   storage: reduxStorage,
   whitelist: ['locations'],
 };

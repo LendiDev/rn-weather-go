@@ -19,8 +19,42 @@ const locationsSlice = createSlice({
       state.selectedLocation = location;
     },
     addLocation: (state, {payload: location}: PayloadAction<Location>) => {
-      state.saved.push(location);
-      state.selectedLocation = location;
+      const existingLocation = state.saved.find(loc => loc.id === location.id);
+
+      if (existingLocation) {
+        state.selectedLocation = existingLocation;
+      } else {
+        state.selectedLocation = location;
+        state.saved.push(location);
+      }
+    },
+    removeLocationById: (
+      state,
+      {payload: locationId}: PayloadAction<string>,
+    ) => {
+      if (state.selectedLocation?.id === locationId) {
+        const index = state.saved.findIndex(
+          location => state.selectedLocation?.id === location.id,
+        );
+        // max index possible after deletion
+        const maxIndex = state.saved.length - 1;
+
+        if (maxIndex > 0) {
+          // still something to select
+          if (maxIndex > index) {
+            // select one to the right
+            state.selectedLocation = state.saved[index + 1];
+          } else {
+            // select one to the left
+            state.selectedLocation = state.saved[index - 1];
+          }
+        } else {
+          // nothing to select
+          state.selectedLocation = undefined;
+        }
+      }
+
+      state.saved = state.saved.filter(location => location.id !== locationId);
     },
     removeAllLocations: state => {
       state.selectedLocation = undefined;

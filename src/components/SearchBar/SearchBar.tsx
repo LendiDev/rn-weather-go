@@ -1,6 +1,6 @@
 import {Keyboard, TextInput, TouchableOpacity, View} from 'react-native';
 import {useStyles} from './SearchBar.styles';
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import Text from '../Text/Text';
 import {useTypedSelector} from '../../hooks/useTypedSelector';
 import {useActions} from '../../hooks/useActions';
@@ -24,6 +24,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   );
   const {setIsSearching} = useActions();
   const styles = useStyles();
+  const inputRef = useRef<TextInput>(null);
 
   const handleSearch = useCallback(
     (text: string) => {
@@ -39,6 +40,10 @@ const SearchBar: React.FC<SearchBarProps> = ({
     if (!isSearching) {
       handleSearch('');
       Keyboard.dismiss();
+    } else {
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 50);
     }
   }, [handleSearch, isSearching]);
 
@@ -54,6 +59,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
     <>
       {!onPressAction ? (
         <TextInput
+          ref={inputRef}
           style={styles.root}
           value={searchTerm}
           placeholder={placeholder}
@@ -63,10 +69,9 @@ const SearchBar: React.FC<SearchBarProps> = ({
         />
       ) : (
         <>
-          <View style={styles.root}>
+          <TouchableOpacity style={styles.root} onPress={onPressAction}>
             <Text>{value}</Text>
-          </View>
-          <TouchableOpacity style={styles.pressArea} onPress={onPressAction} />
+          </TouchableOpacity>
         </>
       )}
 

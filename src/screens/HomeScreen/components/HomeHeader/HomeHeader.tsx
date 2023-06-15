@@ -1,21 +1,22 @@
-import {Alert, View} from 'react-native';
+import {View} from 'react-native';
 import {useStyles} from './HomeHeader.styles';
 import {SearchBar} from '../../../../components';
 import LocationsList from './LocationsList/LocationsList';
 import {useTypedSelector} from '../../../../hooks/useTypedSelector';
 import React from 'react';
+import {useActions} from '../../../../hooks/useActions';
+import {useNavigation} from '@react-navigation/native';
 
 export const HomeHeader: React.FC = () => {
   const styles = useStyles();
   const {selectedLocation} = useTypedSelector(state => state.locations);
+  const {setIsSearching} = useActions();
+  // TODO fix type
+  const navigation = useNavigation();
 
   const handleSearchBarPress = () => {
-    Alert.alert(
-      'On SearchBar Pressed!',
-      `Navigate to "Location Screen" \n\nSelected: \n\n${JSON.stringify(
-        selectedLocation,
-      )}`,
-    );
+    setIsSearching(true);
+    navigation.navigate('Locations');
   };
 
   return (

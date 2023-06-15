@@ -5,7 +5,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 const BottomTabStack = createBottomTabNavigator<MainStackParamList>();
 
-export const MainNavigation: React.FC<{}> = () => {
+export const MainNavigation: React.FC = () => {
   return (
     <BottomTabStack.Navigator
       screenOptions={{
@@ -13,7 +13,11 @@ export const MainNavigation: React.FC<{}> = () => {
       }}
       initialRouteName="Home">
       <BottomTabStack.Screen name="Home" component={HomeScreen} />
-      <BottomTabStack.Screen name="Locations" component={LocationsScreen} />
+      <BottomTabStack.Screen
+        name="Locations"
+        component={LocationsScreen}
+        options={{lazy: false}}
+      />
       <BottomTabStack.Screen name="Settings" component={SettingsScreen} />
     </BottomTabStack.Navigator>
   );
