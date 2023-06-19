@@ -1,11 +1,11 @@
 import {StyleSheet} from 'react-native';
 import {MARGIN_VERTICAL, PADDING_HORIZONTAL} from '../../../../../../constants';
-import {useTypedTheme} from '../../../../../../hooks/useTypedTheme';
+import {ExtendedTheme} from '@react-navigation/native';
 
-export const useStyles = () => {
-  const {colors} = useTypedTheme();
+export const createStyles = (theme: ExtendedTheme) => {
+  const {colors} = theme;
 
-  const styles = StyleSheet.create({
+  return StyleSheet.create({
     root: {
       flex: 1,
       borderRadius: 10,
@@ -18,6 +18,4 @@ export const useStyles = () => {
       backgroundColor: colors.card,
     },
   });
-
-  return styles;
 };

@@ -1,13 +1,12 @@
 import {StyleSheet} from 'react-native';
-import {useTypedTheme} from '../../../../hooks/useTypedTheme';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {MAIN_HEADER_HEIGHT, MARGIN_HORIZONTAL} from '../../../../constants';
+import {ExtendedTheme} from '@react-navigation/native';
+import {EdgeInsets} from 'react-native-safe-area-context';
 
-export const useStyles = () => {
-  const {colors} = useTypedTheme();
-  const insets = useSafeAreaInsets();
+export const createStyles = (theme: ExtendedTheme, insets: EdgeInsets) => {
+  const {colors} = theme;
 
-  const styles = StyleSheet.create({
+  return StyleSheet.create({
     root: {
       position: 'absolute',
       top: insets.top,
@@ -15,7 +14,7 @@ export const useStyles = () => {
       right: 0,
       height: MAIN_HEADER_HEIGHT,
       zIndex: 1,
-      paddingTop: 7.5,
+      paddingTop: 5,
       display: 'flex',
       flexDirection: 'column',
       backgroundColor: colors.background,
@@ -27,6 +26,4 @@ export const useStyles = () => {
       marginHorizontal: MARGIN_HORIZONTAL,
     },
   });
-
-  return styles;
 };

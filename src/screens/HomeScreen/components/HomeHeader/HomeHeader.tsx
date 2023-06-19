@@ -1,18 +1,22 @@
 import {View} from 'react-native';
-import {useStyles} from './HomeHeader.styles';
+import {createStyles} from './HomeHeader.styles';
 import {SearchBar} from '../../../../components';
 import LocationsList from './LocationsList/LocationsList';
 import {useTypedSelector} from '../../../../hooks/useTypedSelector';
-import React from 'react';
+import React, {useMemo} from 'react';
 import {useActions} from '../../../../hooks/useActions';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useTheme} from '@react-navigation/native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {LocationsScreenProps} from '../../../../types';
 
 export const HomeHeader: React.FC = () => {
-  const styles = useStyles();
+  const theme = useTheme();
+  const insets = useSafeAreaInsets();
+  const styles = useMemo(() => createStyles(theme, insets), [theme, insets]);
+
   const {selectedLocation} = useTypedSelector(state => state.locations);
   const {setIsSearching} = useActions();
-  // TODO fix type
-  const navigation = useNavigation();
+  const navigation = useNavigation<LocationsScreenProps['navigation']>();
 
   const handleSearchBarPress = () => {
     setIsSearching(true);

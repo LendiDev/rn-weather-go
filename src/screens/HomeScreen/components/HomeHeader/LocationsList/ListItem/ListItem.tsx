@@ -1,8 +1,10 @@
 import {Text} from '../../../../../../components';
-import {useStyles} from './ListItem.styles';
+import {createStyles} from './ListItem.styles';
 import {useActions} from '../../../../../../hooks/useActions';
 import {Location} from '../../../../../../types';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {useTheme} from '@react-navigation/native';
+import {useMemo} from 'react';
 
 interface ListItemProps {
   item: Location;
@@ -11,7 +13,8 @@ interface ListItemProps {
 }
 
 const ListItem: React.FC<ListItemProps> = ({item, selectedLocation}) => {
-  const styles = useStyles();
+  const theme = useTheme();
+  const styles = useMemo(() => createStyles(theme), [theme]);
   const {selectLocation} = useActions();
 
   const handleLocationSelection = () => {

@@ -5,8 +5,8 @@ import {useStyles} from './SearchLocationsItem.styles';
 import {Keyboard, TouchableOpacity, View} from 'react-native';
 import {useActions} from '../../../../../hooks/useActions';
 import {useLazyGetCoordinatesByIdQuery} from '../../../../../store/api/locationGeocode.api';
-import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
-import {Location} from '../../../../../types';
+import {useNavigation} from '@react-navigation/native';
+import {Location, LocationsScreenProps} from '../../../../../types';
 
 interface SearchLocationsItemProps {
   index: number;
@@ -22,8 +22,8 @@ const SearchLocationsItem: React.FC<SearchLocationsItemProps> = ({
   const {addLocation} = useActions();
   const [getCoordinates] = useLazyGetCoordinatesByIdQuery();
   const {setIsSearching} = useActions();
-  // TODO: Fix type
-  const navigation = useNavigation<CompositeNavigationProp<any, any>>();
+
+  const navigation = useNavigation<LocationsScreenProps['navigation']>();
   const styles = useStyles();
 
   const isLastItem = index === lastItemIndex;

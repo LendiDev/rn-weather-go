@@ -1,16 +1,12 @@
+import {ExtendedTheme} from '@react-navigation/native';
 import {StyleSheet} from 'react-native';
-import {PADDING_HORIZONTAL} from '../../constants';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {EdgeInsets} from 'react-native-safe-area-context';
 
-export const useStyles = () => {
-  const insets = useSafeAreaInsets();
+export const createStyles = (_theme: ExtendedTheme, _insets: EdgeInsets) => {
   return StyleSheet.create({
-    root: {
+    mainContainer: {
       flex: 1,
-      marginTop: insets.top,
-      paddingTop: 7.5,
-      paddingHorizontal: PADDING_HORIZONTAL,
     },
-    searchContainer: {flexDirection: 'row', alignItems: 'center'},
+    searchContainer: {zIndex: 5, flexDirection: 'row', alignItems: 'center'},
   });
 };

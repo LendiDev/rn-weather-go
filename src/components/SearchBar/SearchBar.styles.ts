@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 import {useTypedTheme} from '../../hooks/useTypedTheme';
 import {PADDING_HORIZONTAL} from '../../constants';
 
-const SEARCH_BAR_HEIGHT = 45;
+const SEARCH_BAR_HEIGHT = 35;
 
 export const useStyles = () => {
   const {colors} = useTypedTheme();
@@ -11,7 +11,7 @@ export const useStyles = () => {
     root: {
       flex: 1,
       justifyContent: 'center',
-      backgroundColor: colors.card,
+      backgroundColor: colors.background,
       paddingVertical: 0,
       paddingHorizontal: PADDING_HORIZONTAL,
       borderRadius: 12,

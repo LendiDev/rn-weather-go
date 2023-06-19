@@ -1,12 +1,18 @@
-import React from 'react';
+import React, {ForwardRefRenderFunction, forwardRef} from 'react';
 import {Text} from '../../../../components';
 import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
 import {useTypedSelector} from '../../../../hooks/useTypedSelector';
-import {FlatList} from 'react-native-gesture-handler';
-import {Location} from '../../../../types';
-import {TouchableOpacity, StyleSheet, View} from 'react-native';
+import {Location, LocationsScreenProps} from '../../../../types';
+import {
+  TouchableOpacity,
+  StyleSheet,
+  View,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+} from 'react-native';
 import {useActions} from '../../../../hooks/useActions';
-import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import {createStyles} from './LocationsList.styles';
 
 const LocationRenderItem: React.FC<{
   item: Location;
@@ -44,9 +50,19 @@ const LocationRenderItem: React.FC<{
   );
 };
 
-const LocationsList: React.FC = () => {
-  // TODO: Fix type
-  const navigation = useNavigation<CompositeNavigationProp<any, any>>();
+type ScrollHandler = (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
+
+export interface LocationsListProps {
+  onScrollHandler: ScrollHandler;
+}
+
+const LocationsList: ForwardRefRenderFunction<
+  Animated.FlatList<LocationsListProps>,
+  LocationsListProps
+> = ({onScrollHandler}, ref: React.ForwardedRef<any>) => {
+  const styles = createStyles();
+
+  const navigation = useNavigation<LocationsScreenProps['navigation']>();
   const savedLocations = useTypedSelector(state => state.locations.saved);
   const {isSearching} = useTypedSelector(
     state => state.screens.locationsScreen,
@@ -60,9 +76,15 @@ const LocationsList: React.FC = () => {
 
   return (
     <Animated.View
+      style={styles.mainContainer}
       exiting={isSearching ? FadeOut : undefined}
       entering={FadeIn}>
-      <FlatList
+      <Animated.FlatList
+        ref={ref}
+        style={styles.listContainer}
+        contentContainerStyle={styles.listContentContainer}
+        scrollEventThrottle={1}
+        onScroll={onScrollHandler}
         keyExtractor={item => item.id}
         data={savedLocations}
         renderItem={({item}) => (
@@ -76,4 +98,4 @@ const LocationsList: React.FC = () => {
   );
 };
 
-export default LocationsList;
+export default forwardRef(LocationsList);

@@ -2,8 +2,8 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 export type MainStackParamList = {
   Home: undefined;
-  Locations: undefined;
   Settings: undefined;
+  Locations: undefined;
 };
 
 export type HomeScreenProps = NativeStackScreenProps<
@@ -14,4 +14,9 @@ export type HomeScreenProps = NativeStackScreenProps<
 export type SettingsScreenProps = NativeStackScreenProps<
   MainStackParamList,
   'Settings'
+>;
+
+export type LocationsScreenProps = NativeStackScreenProps<
+  MainStackParamList,
+  'Locations'
 >;
