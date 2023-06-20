@@ -13,6 +13,7 @@ import {
 import {useActions} from '../../../../hooks/useActions';
 import {useNavigation} from '@react-navigation/native';
 import {createStyles} from './LocationsList.styles';
+import {MARGIN_HORIZONTAL} from '../../../../constants';
 
 const LocationRenderItem: React.FC<{
   item: Location;
@@ -25,7 +26,7 @@ const LocationRenderItem: React.FC<{
   };
 
   const styles = StyleSheet.create({
-    mainContainer: {paddingVertical: 5},
+    mainContainer: {paddingVertical: 5, marginHorizontal: MARGIN_HORIZONTAL},
     deleteButton: {
       paddingVertical: 5,
       backgroundColor: 'orange',
