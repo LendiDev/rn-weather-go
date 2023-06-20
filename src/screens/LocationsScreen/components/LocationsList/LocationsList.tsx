@@ -17,11 +17,14 @@ import {MARGIN_HORIZONTAL, PADDING_VERTICAL} from '../../../../constants';
 import {
   NestableDraggableFlatList,
   NestableScrollContainer,
+  RenderItemParams,
 } from 'react-native-draggable-flatlist';
 
-const LocationRenderItem: React.FC<{
-  item: Location;
-}> = ({item}) => {
+const LocationRenderItem: React.FC<RenderItemParams<Location>> = ({
+  item,
+  drag,
+  isActive,
+}) => {
   const {removeLocationById, selectLocation} = useActions();
   const navigation = useNavigation<LocationsScreenProps['navigation']>();
 
@@ -49,17 +52,22 @@ const LocationRenderItem: React.FC<{
   });
 
   return (
-    <View style={styles.mainContainer}>
-      <TouchableOpacity onPress={handleLocationPressed}>
-        <Text>{item.displayName}</Text>
-        <Text>{item.additionalInfo}</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.deleteButton}
-        onPress={handleDeleteLocationPressed}>
-        <Text>Delete</Text>
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity
+      onLongPress={drag}
+      disabled={isActive}
+      style={[{backgroundColor: isActive ? '#eee' : 'white'}]}>
+      <View style={styles.mainContainer}>
+        <TouchableOpacity onPress={handleLocationPressed}>
+          <Text>{item.displayName}</Text>
+          <Text>{item.additionalInfo}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.deleteButton}
+          onPress={handleDeleteLocationPressed}>
+          <Text>Delete</Text>
+        </TouchableOpacity>
+      </View>
+    </TouchableOpacity>
   );
 };
 
@@ -78,7 +86,6 @@ const LocationsList: ForwardRefRenderFunction<
   LocationsListProps
 > = ({onScrollHandler}, ref: React.ForwardedRef<any>) => {
   const styles = useMemo(() => createStyles(), []);
-
   const savedLocations = useTypedSelector(state => state.locations.saved);
 
   return (
@@ -93,7 +100,7 @@ const LocationsList: ForwardRefRenderFunction<
         <NestableDraggableFlatList
           ref={ref}
           data={savedLocations}
-          renderItem={({item}) => <LocationRenderItem item={item} />}
+          renderItem={LocationRenderItem}
           keyExtractor={item => item.id}
         />
       </AnimatedNestableScrollContainer>

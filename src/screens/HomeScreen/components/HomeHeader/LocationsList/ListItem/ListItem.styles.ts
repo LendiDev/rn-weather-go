@@ -7,12 +7,12 @@ export const createStyles = (theme: ExtendedTheme) => {
 
   return StyleSheet.create({
     root: {
-      flex: 1,
       borderRadius: 10,
       marginVertical: MARGIN_VERTICAL,
       paddingHorizontal: PADDING_HORIZONTAL,
       backgroundColor: colors.background,
       justifyContent: 'center',
+      height: 35,
     },
     active: {
       backgroundColor: colors.input,

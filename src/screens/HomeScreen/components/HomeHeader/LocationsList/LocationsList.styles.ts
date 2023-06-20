@@ -5,10 +5,12 @@ export const useStyles = () => {
   //const {colors} = useTypedTheme();
 
   return StyleSheet.create({
-    root: {},
+    root: {
+      flex: 1,
+    },
     contentContainer: {
-      marginLeft: MARGIN_HORIZONTAL,
-      paddingRight: MARGIN_HORIZONTAL * 2,
+      paddingRight: MARGIN_HORIZONTAL,
+      paddingLeft: MARGIN_HORIZONTAL,
     },
   });
 };

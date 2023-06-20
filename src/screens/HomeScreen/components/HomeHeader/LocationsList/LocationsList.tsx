@@ -1,88 +1,63 @@
-import {FlatList} from 'react-native-gesture-handler';
 import ListItem from './ListItem/ListItem';
 import {useStyles} from './LocationsList.styles';
-import {Separator} from '../../../../../components';
 import {useTypedSelector} from '../../../../../hooks/useTypedSelector';
-import {useCallback, useRef} from 'react';
-import {Location} from '../../../../../types';
+import {useCallback, useRef, useState} from 'react';
+import {LayoutChangeEvent, View} from 'react-native';
+import {ScrollView} from 'react-native-gesture-handler';
 import {useFocusEffect} from '@react-navigation/native';
 
-interface ScrollError {
-  index: number;
-  highestMeasuredFrameIndex: number;
-  averageItemLength: number;
-}
-
 const LocationsList: React.FC = () => {
+  const [itemScrollPositions, setItemScrollPositions] = useState<number[]>([]);
   const styles = useStyles();
-  const {saved: savedLocation, selectedLocation} = useTypedSelector(
+  const {saved: savedLocations, selectedLocation} = useTypedSelector(
     state => state.locations,
   );
 
-  const listRef = useRef<FlatList<Location>>(null);
+  const listRef = useRef<ScrollView>(null);
 
-  const scrollToSelectedLocationIndex = useCallback(
-    (error?: ScrollError) => {
-      const index = savedLocation.findIndex(
-        location => location.id === selectedLocation?.id,
-      );
-
-      listRef.current?.scrollToIndex({
-        index: error ? error.index : index > 0 ? index : 0,
-        viewPosition: 0.5,
-        animated: true,
-      });
-    },
-    [savedLocation, selectedLocation?.id],
-  );
-
-  // perform action once on focus
   useFocusEffect(
     useCallback(() => {
-      if (savedLocation.length > 0) {
-        const unsubscribe = scrollToSelectedLocationIndex();
+      if (savedLocations.length > 0) {
+        const index = savedLocations.findIndex(
+          location => location.id === selectedLocation?.id,
+        );
 
-        return () => unsubscribe;
+        setTimeout(() => {
+          listRef.current?.scrollTo({
+            x: itemScrollPositions[index] - 15,
+            y: 0,
+            animated: true,
+          });
+        }, 50);
       }
-    }, [savedLocation, scrollToSelectedLocationIndex]),
+    }, [itemScrollPositions, savedLocations, selectedLocation]),
   );
 
-  const scrollToSelectedLocationOffset = (error: ScrollError) => {
-    listRef.current?.scrollToOffset({
-      offset: error.averageItemLength * error.index,
-      animated: true,
+  const onLayoutHandler = (e: LayoutChangeEvent, index: number) => {
+    const {x} = e.nativeEvent.layout;
+    setItemScrollPositions(prevState => {
+      const newState = [...prevState];
+      newState[index] = x;
+
+      return newState;
     });
   };
 
-  const handleScrollToIndexFailed = (error: ScrollError) => {
-    scrollToSelectedLocationOffset(error);
-
-    setTimeout(() => {
-      if (savedLocation.length !== 0) {
-        scrollToSelectedLocationIndex(error);
-      }
-    }, 100);
-  };
-
   return (
-    <FlatList
+    <ScrollView
       ref={listRef}
       style={styles.root}
-      contentContainerStyle={styles.contentContainer}
-      keyExtractor={item => item.id}
-      data={savedLocation}
-      renderItem={({item, index}) => (
-        <ListItem
-          item={item}
-          index={index}
-          selectedLocation={selectedLocation}
-        />
-      )}
-      onScrollToIndexFailed={handleScrollToIndexFailed}
       horizontal
-      ItemSeparatorComponent={() => Separator({width: 5})}
       showsHorizontalScrollIndicator={false}
-    />
+      contentContainerStyle={styles.contentContainer}>
+      {savedLocations.map((item, index) => {
+        return (
+          <View key={item.id} onLayout={e => onLayoutHandler(e, index)}>
+            <ListItem item={item} selectedLocation={selectedLocation} />
+          </View>
+        );
+      })}
+    </ScrollView>
   );
 };
 

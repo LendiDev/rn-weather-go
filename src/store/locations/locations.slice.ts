@@ -18,14 +18,17 @@ const locationsSlice = createSlice({
     selectLocation: (state, {payload: location}: PayloadAction<Location>) => {
       state.selectedLocation = location;
     },
-    addLocation: (state, {payload: location}: PayloadAction<Location>) => {
+    addLocationAndSelect: (
+      state,
+      {payload: location}: PayloadAction<Location>,
+    ) => {
       const existingLocation = state.saved.find(loc => loc.id === location.id);
 
       if (existingLocation) {
         state.selectedLocation = existingLocation;
       } else {
-        state.selectedLocation = location;
         state.saved.push(location);
+        state.selectedLocation = location;
       }
     },
     removeLocationById: (

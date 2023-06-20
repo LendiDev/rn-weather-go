@@ -4,11 +4,10 @@ import {useActions} from '../../../../../../hooks/useActions';
 import {Location} from '../../../../../../types';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useTheme} from '@react-navigation/native';
-import {useMemo} from 'react';
+import {memo, useMemo} from 'react';
 
 interface ListItemProps {
   item: Location;
-  index: number;
   selectedLocation?: Location;
 }
 
@@ -23,8 +22,6 @@ const ListItem: React.FC<ListItemProps> = ({item, selectedLocation}) => {
 
   const isSelected = item.id === selectedLocation?.id;
 
-  console.log('rerender0');
-
   return (
     <TouchableOpacity
       style={[styles.root, isSelected && styles.active]}
@@ -35,4 +32,4 @@ const ListItem: React.FC<ListItemProps> = ({item, selectedLocation}) => {
   );
 };
 
-export default ListItem;
+export default memo(ListItem);
