@@ -39,7 +39,7 @@ const Text: React.FC<TextProps> = ({
 
   const styles = {
     default: StyleSheet.flatten<TextStyle>({
-      fontSize: 14,
+      fontSize: 16,
       fontWeight: 'normal',
       color: colors.text,
     }),

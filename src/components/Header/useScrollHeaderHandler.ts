@@ -15,7 +15,7 @@ export const useScrollHeaderHandler = (
   const onScrollHandler = useAnimatedScrollHandler({
     onScroll: ({contentOffset}) => {
       scrollY.value = contentOffset.y;
-      console.log(scrollY.value);
+      console.log(scrollY.value, 'this is why');
     },
     onEndDrag: ({contentOffset, velocity}) => {
       const velocityY = velocity?.y || 0;

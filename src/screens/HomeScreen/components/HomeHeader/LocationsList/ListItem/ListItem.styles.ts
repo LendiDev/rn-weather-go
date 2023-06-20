@@ -9,13 +9,13 @@ export const createStyles = (theme: ExtendedTheme) => {
     root: {
       flex: 1,
       borderRadius: 10,
-      marginVertical: MARGIN_VERTICAL * 1.5,
+      marginVertical: MARGIN_VERTICAL,
       paddingHorizontal: PADDING_HORIZONTAL,
       backgroundColor: colors.background,
       justifyContent: 'center',
     },
     active: {
-      backgroundColor: colors.card,
+      backgroundColor: colors.input,
     },
   });
 };

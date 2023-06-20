@@ -6,7 +6,7 @@ import {ExtendedTheme} from '@react-navigation/native';
 export const createStyles = (_theme: ExtendedTheme, insets: EdgeInsets) => {
   return StyleSheet.create({
     contentContainer: {
-      zIndex: 2,
+      zIndex: 20,
       marginTop: insets.top + LARGE_TITLE_ROW_HEIGHT,
       position: 'absolute',
       width: '100%',
@@ -20,7 +20,7 @@ export const createStyles = (_theme: ExtendedTheme, insets: EdgeInsets) => {
       right: 0,
       top: 0,
       bottom: 0,
-      backgroundColor: 'rgba(255,255,255, 0.75)',
+      backgroundColor: 'rgba(255,255,255, 1)',
     },
     backdropSearching: {
       zIndex: 1,

@@ -57,9 +57,7 @@ const SearchLocationsItem: React.FC<SearchLocationsItemProps> = ({
   return (
     <Animated.View style={styles.mainContainer} entering={FadeIn}>
       <TouchableOpacity onPress={handleLocationPressed}>
-        <Text fontSize={14} style={styles.labelText}>
-          {item.label}
-        </Text>
+        <Text style={styles.labelText}>{item.label}</Text>
       </TouchableOpacity>
       {!isLastItem && <View style={styles.separatorLine} />}
     </Animated.View>

@@ -7,6 +7,11 @@ export const createStyles = (_theme: ExtendedTheme, _insets: EdgeInsets) => {
     mainContainer: {
       flex: 1,
     },
-    searchContainer: {zIndex: 5, flexDirection: 'row', alignItems: 'center'},
+    searchContainer: {
+      zIndex: 5,
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      paddingBottom: 5,
+    },
   });
 };

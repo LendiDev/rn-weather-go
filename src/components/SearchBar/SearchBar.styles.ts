@@ -1,18 +1,18 @@
 import {StyleSheet} from 'react-native';
-import {useTypedTheme} from '../../hooks/useTypedTheme';
 import {PADDING_HORIZONTAL} from '../../constants';
+import {useTheme} from '@react-navigation/native';
 
-const SEARCH_BAR_HEIGHT = 35;
+const SEARCH_BAR_HEIGHT = 40;
 
 export const useStyles = () => {
-  const {colors} = useTypedTheme();
+  const {colors} = useTheme();
 
   const styles = StyleSheet.create({
     root: {
       flex: 1,
+      fontSize: 16,
       justifyContent: 'center',
-      backgroundColor: colors.background,
-      paddingVertical: 0,
+      backgroundColor: colors.input,
       paddingHorizontal: PADDING_HORIZONTAL,
       borderRadius: 12,
       maxHeight: SEARCH_BAR_HEIGHT,

@@ -4,6 +4,9 @@ export const customTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    customColor: '#ccc',
+    primary: 'orange',
+    background: 'white',
+    card: 'white',
+    input: '#eee',
   },
 };
