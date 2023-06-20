@@ -18,4 +18,6 @@ export const locationsScreen = createSlice({
   },
 });
 
-export const {actions, reducer} = locationsScreen;
+export const {reducer} = locationsScreen;
+
+export const locationsScreenActions = locationsScreen.actions;

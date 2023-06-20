@@ -1,15 +1,12 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {View} from 'react-native';
 import {Header, SearchBar} from '../../components';
 import {LocationsList, SearchLocationsList} from './components/';
 import {useDebounce} from '../../hooks/useDebounce';
 import {useTypedSelector} from '../../hooks/useTypedSelector';
 import Animated, {
-  scrollTo,
   useAnimatedRef,
-  useDerivedValue,
   useSharedValue,
-  withTiming,
 } from 'react-native-reanimated';
 import {TITLE_ROW_HEIGHT} from '../../components/Header/Header';
 import {createStyles} from './LocationsScreen.styles';
