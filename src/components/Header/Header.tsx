@@ -156,33 +156,32 @@ const Header: React.FC<HeaderProps> = ({title, children, scrollY}) => {
     largeTitleText: {fontSize: 32, fontWeight: '800'},
   });
 
-  if (children) {
-    return (
-      <>
-        <View style={styles.statusBar} />
+  return (
+    <>
+      <View style={styles.statusBar} />
+      <Animated.View
+        style={[styles.mainContainer, animatedSearchBarContainerYStyle]}>
+        <Animated.View style={[styles.titleContainer]}>
+          <TouchableOpacity style={styles.actionButtonLeft} />
+          <Animated.Text style={[styles.titleText, animatedTitleOpacityStyle]}>
+            {title}
+          </Animated.Text>
+          <TouchableOpacity style={styles.actionButtonRight}>
+            <Text>Edit</Text>
+          </TouchableOpacity>
+        </Animated.View>
         <Animated.View
-          style={[styles.mainContainer, animatedSearchBarContainerYStyle]}>
-          <Animated.View style={[styles.titleContainer]}>
-            <TouchableOpacity style={styles.actionButtonLeft} />
-            <Animated.Text
-              style={[styles.titleText, animatedTitleOpacityStyle]}>
-              {title}
-            </Animated.Text>
-            <TouchableOpacity style={styles.actionButtonRight}>
-              <Text>Edit</Text>
-            </TouchableOpacity>
-          </Animated.View>
-          <Animated.View
-            style={[
-              styles.largeTitleContainer,
-              animatedLargeTitleHeightOnScrollStyle,
-              animatedLargeTitleContainerOpacityStyle,
-            ]}>
-            <Animated.Text
-              style={[styles.largeTitleText, animatedLargeTitleOpacityStyle]}>
-              {title}
-            </Animated.Text>
-          </Animated.View>
+          style={[
+            styles.largeTitleContainer,
+            animatedLargeTitleHeightOnScrollStyle,
+            animatedLargeTitleContainerOpacityStyle,
+          ]}>
+          <Animated.Text
+            style={[styles.largeTitleText, animatedLargeTitleOpacityStyle]}>
+            {title}
+          </Animated.Text>
+        </Animated.View>
+        {children && (
           <Animated.View
             style={[
               styles.largeTitleContainer,
@@ -190,15 +189,9 @@ const Header: React.FC<HeaderProps> = ({title, children, scrollY}) => {
             ]}>
             {children}
           </Animated.View>
-        </Animated.View>
-      </>
-    );
-  }
-  return (
-    <Animated.View>
-      <Text>I am here</Text>
-      {children}
-    </Animated.View>
+        )}
+      </Animated.View>
+    </>
   );
 };
 
