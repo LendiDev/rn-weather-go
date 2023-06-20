@@ -1,19 +1,18 @@
 import React, {ForwardRefRenderFunction, forwardRef} from 'react';
 import {Text} from '../../../../components';
-import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
+import Animated, {FadeIn, FadeOut, Layout} from 'react-native-reanimated';
 import {useTypedSelector} from '../../../../hooks/useTypedSelector';
 import {Location, LocationsScreenProps} from '../../../../types';
 import {
   TouchableOpacity,
   StyleSheet,
-  View,
   NativeScrollEvent,
   NativeSyntheticEvent,
 } from 'react-native';
 import {useActions} from '../../../../hooks/useActions';
 import {useNavigation} from '@react-navigation/native';
 import {createStyles} from './LocationsList.styles';
-import {MARGIN_HORIZONTAL} from '../../../../constants';
+import {MARGIN_HORIZONTAL, PADDING_VERTICAL} from '../../../../constants';
 
 const LocationRenderItem: React.FC<{
   item: Location;
@@ -26,9 +25,12 @@ const LocationRenderItem: React.FC<{
   };
 
   const styles = StyleSheet.create({
-    mainContainer: {paddingVertical: 5, marginHorizontal: MARGIN_HORIZONTAL},
+    mainContainer: {
+      paddingVertical: PADDING_VERTICAL,
+      marginHorizontal: MARGIN_HORIZONTAL,
+    },
     deleteButton: {
-      paddingVertical: 5,
+      paddingVertical: PADDING_VERTICAL,
       backgroundColor: 'orange',
       borderRadius: 10,
       width: 65,
@@ -37,7 +39,10 @@ const LocationRenderItem: React.FC<{
   });
 
   return (
-    <View style={styles.mainContainer}>
+    <Animated.View
+      exiting={FadeOut}
+      layout={Layout.duration(50)}
+      style={styles.mainContainer}>
       <TouchableOpacity onPress={() => handleLocationPressed(item)}>
         <Text>{item.displayName}</Text>
         <Text>{item.additionalInfo}</Text>
@@ -47,7 +52,7 @@ const LocationRenderItem: React.FC<{
         onPress={handleDeleteLocationPressed}>
         <Text>Delete</Text>
       </TouchableOpacity>
-    </View>
+    </Animated.View>
   );
 };
 

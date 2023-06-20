@@ -4,6 +4,7 @@ import Animated, {
   Extrapolation,
   SharedValue,
   interpolate,
+  useAnimatedReaction,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -11,15 +12,11 @@ import Animated, {
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {PADDING_HORIZONTAL} from '../../constants';
 import {useTypedSelector} from '../../hooks/useTypedSelector';
-import {useEffect} from 'react';
-import {LocationsListProps} from '../../screens/LocationsScreen/components/LocationsList/LocationsList';
 
 type HeaderProps = {
   title: string;
-  children?: React.ReactNode[] | React.ReactNode;
+  children?: React.ReactNode;
   scrollY?: SharedValue<number>;
-  animatedTransformY?: SharedValue<number>;
-  flatListRef?: React.RefObject<Animated.FlatList<LocationsListProps>>;
 };
 
 export const TITLE_ROW_HEIGHT = 46;
@@ -35,14 +32,23 @@ const Header: React.FC<HeaderProps> = ({title, children, scrollY}) => {
 
   const storedLargeTitleY = useSharedValue(0);
   const childY = useSharedValue(0);
+  const largeTitleContainerOpacity = useSharedValue(1);
 
-  useEffect(() => {
-    childY.value = isSearching
-      ? storedLargeTitleY.value === -TITLE_ROW_HEIGHT
-        ? -TITLE_ROW_HEIGHT
-        : -TITLE_ROW_HEIGHT * 2
-      : 0;
-  }, [childY, isSearching, storedLargeTitleY.value]);
+  useAnimatedReaction(
+    () => isSearching,
+    newIsSearching => {
+      if (newIsSearching) {
+        childY.value =
+          storedLargeTitleY.value === -TITLE_ROW_HEIGHT
+            ? -TITLE_ROW_HEIGHT
+            : -TITLE_ROW_HEIGHT * 2;
+        largeTitleContainerOpacity.value = withTiming(0, {duration: 150});
+      } else {
+        childY.value = 0;
+        largeTitleContainerOpacity.value = withTiming(1, {duration: 350});
+      }
+    },
+  );
 
   const animatedSearchBarContainerYStyle = useAnimatedStyle(() => {
     return {
@@ -67,6 +73,10 @@ const Header: React.FC<HeaderProps> = ({title, children, scrollY}) => {
     return {
       transform: [{translateY: storedLargeTitleY.value}],
     };
+  });
+
+  const animatedLargeTitleContainerOpacityStyle = useAnimatedStyle(() => {
+    return {opacity: largeTitleContainerOpacity.value};
   });
 
   const animatedLargeTitleOpacityStyle = useAnimatedStyle(() => {
@@ -146,7 +156,7 @@ const Header: React.FC<HeaderProps> = ({title, children, scrollY}) => {
     largeTitleText: {fontSize: 32, fontWeight: '800'},
   });
 
-  if (!Array.isArray(children)) {
+  if (children) {
     return (
       <>
         <View style={styles.statusBar} />
@@ -166,6 +176,7 @@ const Header: React.FC<HeaderProps> = ({title, children, scrollY}) => {
             style={[
               styles.largeTitleContainer,
               animatedLargeTitleHeightOnScrollStyle,
+              animatedLargeTitleContainerOpacityStyle,
             ]}>
             <Animated.Text
               style={[styles.largeTitleText, animatedLargeTitleOpacityStyle]}>
