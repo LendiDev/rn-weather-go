@@ -28,9 +28,7 @@ const LocationsScreen: React.FC = () => {
 
   // Scroll handling
   const scrollY = useSharedValue(0);
-  const animatedTransformY = useSharedValue(0);
   const ref = useAnimatedRef<Animated.FlatList<LocationsListProps>>();
-
   const snapPoints: [number, number] = [0, TITLE_ROW_HEIGHT];
 
   const {onScrollHandler} = useScrollHeaderHandler(scrollY, ref, snapPoints);
@@ -38,11 +36,7 @@ const LocationsScreen: React.FC = () => {
 
   return (
     <View style={styles.mainContainer}>
-      <Header
-        title="Locations"
-        scrollY={scrollY}
-        animatedTransformY={animatedTransformY}
-        flatListRef={ref}>
+      <Header title="Locations" scrollY={scrollY}>
         <View style={styles.searchContainer}>
           <SearchBar setSearchValue={setSearchValue} />
         </View>

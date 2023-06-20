@@ -55,7 +55,7 @@ const Header: React.FC<HeaderProps> = ({title, children, scrollY}) => {
       transform: [
         {
           translateY: withTiming(childY.value, {
-            duration: 250,
+            duration: 200,
           }),
         },
       ],

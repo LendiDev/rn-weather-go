@@ -1,6 +1,6 @@
-import React, {ForwardRefRenderFunction, forwardRef} from 'react';
+import React, {ForwardRefRenderFunction, forwardRef, useMemo} from 'react';
 import {Text} from '../../../../components';
-import Animated, {FadeIn, FadeOut, Layout} from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import {useTypedSelector} from '../../../../hooks/useTypedSelector';
 import {Location, LocationsScreenProps} from '../../../../types';
 import {
@@ -8,20 +8,30 @@ import {
   StyleSheet,
   NativeScrollEvent,
   NativeSyntheticEvent,
+  View,
 } from 'react-native';
 import {useActions} from '../../../../hooks/useActions';
 import {useNavigation} from '@react-navigation/native';
 import {createStyles} from './LocationsList.styles';
 import {MARGIN_HORIZONTAL, PADDING_VERTICAL} from '../../../../constants';
+import {
+  NestableDraggableFlatList,
+  NestableScrollContainer,
+} from 'react-native-draggable-flatlist';
 
 const LocationRenderItem: React.FC<{
   item: Location;
-  handleLocationPressed: (item: Location) => void;
-}> = ({item, handleLocationPressed}) => {
-  const {removeLocationById} = useActions();
+}> = ({item}) => {
+  const {removeLocationById, selectLocation} = useActions();
+  const navigation = useNavigation<LocationsScreenProps['navigation']>();
 
   const handleDeleteLocationPressed = () => {
     removeLocationById(item.id);
+  };
+
+  const handleLocationPressed = () => {
+    selectLocation(item);
+    navigation.navigate('Home');
   };
 
   const styles = StyleSheet.create({
@@ -39,11 +49,8 @@ const LocationRenderItem: React.FC<{
   });
 
   return (
-    <Animated.View
-      exiting={FadeOut}
-      layout={Layout.duration(50)}
-      style={styles.mainContainer}>
-      <TouchableOpacity onPress={() => handleLocationPressed(item)}>
+    <View style={styles.mainContainer}>
+      <TouchableOpacity onPress={handleLocationPressed}>
         <Text>{item.displayName}</Text>
         <Text>{item.additionalInfo}</Text>
       </TouchableOpacity>
@@ -52,7 +59,7 @@ const LocationRenderItem: React.FC<{
         onPress={handleDeleteLocationPressed}>
         <Text>Delete</Text>
       </TouchableOpacity>
-    </Animated.View>
+    </View>
   );
 };
 
@@ -62,44 +69,34 @@ export interface LocationsListProps {
   onScrollHandler: ScrollHandler;
 }
 
+const AnimatedNestableScrollContainer = Animated.createAnimatedComponent(
+  NestableScrollContainer,
+);
+
 const LocationsList: ForwardRefRenderFunction<
   Animated.FlatList<LocationsListProps>,
   LocationsListProps
 > = ({onScrollHandler}, ref: React.ForwardedRef<any>) => {
-  const styles = createStyles();
+  const styles = useMemo(() => createStyles(), []);
 
-  const navigation = useNavigation<LocationsScreenProps['navigation']>();
   const savedLocations = useTypedSelector(state => state.locations.saved);
-  const {isSearching} = useTypedSelector(
-    state => state.screens.locationsScreen,
-  );
-  const {selectLocation} = useActions();
-
-  const handleLocationPressed = (item: Location) => {
-    selectLocation(item);
-    navigation.navigate('Home');
-  };
 
   return (
-    <Animated.View
-      style={styles.mainContainer}
-      exiting={isSearching ? FadeOut : undefined}
-      entering={FadeIn}>
-      <Animated.FlatList
-        ref={ref}
+    <Animated.View style={styles.mainContainer}>
+      <AnimatedNestableScrollContainer
         style={styles.listContainer}
         contentContainerStyle={styles.listContentContainer}
-        scrollEventThrottle={1}
-        onScroll={onScrollHandler}
-        keyExtractor={item => item.id}
-        data={savedLocations}
-        renderItem={({item}) => (
-          <LocationRenderItem
-            item={item}
-            handleLocationPressed={handleLocationPressed}
-          />
-        )}
-      />
+        onScroll={onScrollHandler}>
+        <View>
+          <Text>Saved</Text>
+        </View>
+        <NestableDraggableFlatList
+          ref={ref}
+          data={savedLocations}
+          renderItem={({item}) => <LocationRenderItem item={item} />}
+          keyExtractor={item => item.id}
+        />
+      </AnimatedNestableScrollContainer>
     </Animated.View>
   );
 };
