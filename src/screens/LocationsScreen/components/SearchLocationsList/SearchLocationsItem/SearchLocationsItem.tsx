@@ -19,7 +19,7 @@ const SearchLocationsItem: React.FC<SearchLocationsItemProps> = ({
   index,
   lastItemIndex,
 }) => {
-  const {addLocationAndSelect} = useActions();
+  const {addLocationAndSelect, setIsManualLocationSelection} = useActions();
   const [getCoordinates] = useLazyGetCoordinatesByIdQuery();
   const {setIsSearching} = useActions();
 
@@ -47,6 +47,7 @@ const SearchLocationsItem: React.FC<SearchLocationsItemProps> = ({
         Keyboard.dismiss();
         setIsSearching(false);
         addLocationAndSelect(locationDetails);
+        setIsManualLocationSelection(false);
         navigation.navigate('Home');
       })
       .catch((err: any) => {

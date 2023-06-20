@@ -25,7 +25,8 @@ const LocationRenderItem: React.FC<RenderItemParams<Location>> = ({
   drag,
   isActive,
 }) => {
-  const {removeLocationById, selectLocation} = useActions();
+  const {removeLocationById, selectLocation, setIsManualLocationSelection} =
+    useActions();
   const navigation = useNavigation<LocationsScreenProps['navigation']>();
 
   const handleDeleteLocationPressed = () => {
@@ -34,6 +35,7 @@ const LocationRenderItem: React.FC<RenderItemParams<Location>> = ({
 
   const handleLocationPressed = () => {
     selectLocation(item);
+    setIsManualLocationSelection(false);
     navigation.navigate('Home');
   };
 

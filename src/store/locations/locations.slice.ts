@@ -56,7 +56,6 @@ const locationsSlice = createSlice({
           state.selectedLocation = undefined;
         }
       }
-
       state.saved = state.saved.filter(location => location.id !== locationId);
     },
     removeAllLocations: state => {

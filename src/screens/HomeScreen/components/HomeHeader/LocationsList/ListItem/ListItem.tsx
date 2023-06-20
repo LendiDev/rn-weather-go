@@ -14,10 +14,11 @@ interface ListItemProps {
 const ListItem: React.FC<ListItemProps> = ({item, selectedLocation}) => {
   const theme = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
-  const {selectLocation} = useActions();
+  const {selectLocation, setIsManualLocationSelection} = useActions();
 
   const handleLocationSelection = () => {
     selectLocation(item);
+    setIsManualLocationSelection(true);
   };
 
   const isSelected = item.id === selectedLocation?.id;

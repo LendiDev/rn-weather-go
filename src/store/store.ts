@@ -17,6 +17,7 @@ import {reduxStorage} from './storage';
 import {autocompleteApi} from './api/locationSuggestions.api';
 import {geocodeApi} from './api/locationGeocode.api';
 import {locationsScreen} from './screens/locationsScreen.slice';
+import {homeScreenSlice} from './screens/homeScreen.slice';
 
 const persistConfig = {
   key: 'root',
@@ -40,6 +41,7 @@ const reducers = combineReducers({
   [geocodeApi.reducerPath]: geocodeApi.reducer,
   screens: combineReducers({
     locationsScreen: locationsScreen.reducer,
+    homeScreen: homeScreenSlice.reducer,
   }),
 });
 

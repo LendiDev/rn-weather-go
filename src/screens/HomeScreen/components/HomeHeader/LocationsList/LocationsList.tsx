@@ -8,6 +8,10 @@ import {useFocusEffect} from '@react-navigation/native';
 
 const LocationsList: React.FC = () => {
   const [itemScrollPositions, setItemScrollPositions] = useState<number[]>([]);
+  const {isManualLocationSelection} = useTypedSelector(
+    state => state.screens.homeScreen,
+  );
+
   const styles = useStyles();
   const {saved: savedLocations, selectedLocation} = useTypedSelector(
     state => state.locations,
@@ -17,7 +21,7 @@ const LocationsList: React.FC = () => {
 
   useFocusEffect(
     useCallback(() => {
-      if (savedLocations.length > 0) {
+      if (savedLocations.length > 0 && !isManualLocationSelection) {
         const index = savedLocations.findIndex(
           location => location.id === selectedLocation?.id,
         );
@@ -30,11 +34,17 @@ const LocationsList: React.FC = () => {
           });
         }, 50);
       }
-    }, [itemScrollPositions, savedLocations, selectedLocation]),
+    }, [
+      isManualLocationSelection,
+      itemScrollPositions,
+      savedLocations,
+      selectedLocation?.id,
+    ]),
   );
 
   const onLayoutHandler = (e: LayoutChangeEvent, index: number) => {
     const {x} = e.nativeEvent.layout;
+
     setItemScrollPositions(prevState => {
       const newState = [...prevState];
       newState[index] = x;
@@ -46,6 +56,7 @@ const LocationsList: React.FC = () => {
   return (
     <ScrollView
       ref={listRef}
+      scrollEventThrottle={16}
       style={styles.root}
       horizontal
       showsHorizontalScrollIndicator={false}
