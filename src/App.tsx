@@ -12,7 +12,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {enableScreens} from 'react-native-screens';
 import {customTheme} from './themes/customTheme';
 
-enableScreens(true);
+enableScreens();
 
 function App(): JSX.Element {
   const scheme = useColorScheme();

@@ -16,7 +16,7 @@ export const MainNavigation: React.FC = () => {
       <BottomTabStack.Screen
         name="Locations"
         component={LocationsScreen}
-        options={{lazy: false}}
+        options={{lazy: true}}
       />
       <BottomTabStack.Screen name="Settings" component={SettingsScreen} />
     </BottomTabStack.Navigator>

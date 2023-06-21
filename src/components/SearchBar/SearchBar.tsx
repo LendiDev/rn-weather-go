@@ -54,8 +54,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
     setIsSearching(false);
 
     if (isSearchingFromHome) {
-      setIsSearchingFromHome(false);
       navigation.navigate('Home');
+      setIsSearchingFromHome(false);
     }
   };
 

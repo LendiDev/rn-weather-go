@@ -40,16 +40,17 @@ const Header: React.FC<HeaderProps> = ({title, children, scrollY}) => {
     newIsSearching => {
       if (newIsSearching) {
         childY.value =
-          storedLargeTitleY.value === -TITLE_ROW_HEIGHT
-            ? -TITLE_ROW_HEIGHT
+          storedLargeTitleY.value < -TITLE_ROW_HEIGHT / 2
+            ? -TITLE_ROW_HEIGHT - (TITLE_ROW_HEIGHT + storedLargeTitleY.value)
             : -TITLE_ROW_HEIGHT * 2;
+        console.log(childY.value, storedLargeTitleY.value, -TITLE_ROW_HEIGHT);
         largeTitleContainerOpacity.value = withTiming(0, {
-          duration: ANIMATION_DURATION_MS,
+          duration: ANIMATION_DURATION_MS / 2,
         });
       } else {
         childY.value = 0;
         largeTitleContainerOpacity.value = withTiming(1, {
-          duration: ANIMATION_DURATION_MS,
+          duration: ANIMATION_DURATION_MS / 2,
         });
       }
     },
