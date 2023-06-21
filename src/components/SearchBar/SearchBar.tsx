@@ -4,6 +4,8 @@ import {useCallback, useEffect, useRef, useState} from 'react';
 import Text from '../Text/Text';
 import {useTypedSelector} from '../../hooks/useTypedSelector';
 import {useActions} from '../../hooks/useActions';
+import {useNavigation} from '@react-navigation/native';
+import {LocationsScreenProps} from '../../types';
 
 interface SearchBarProps {
   value?: string;
@@ -19,10 +21,11 @@ const SearchBar: React.FC<SearchBarProps> = ({
   onPressAction,
 }) => {
   const [searchTerm, setSearchTerm] = useState(value);
-  const {isSearching} = useTypedSelector(
+  const {isSearching, isSearchingFromHome} = useTypedSelector(
     state => state.screens.locationsScreen,
   );
-  const {setIsSearching} = useActions();
+  const navigation = useNavigation<LocationsScreenProps['navigation']>();
+  const {setIsSearching, setIsSearchingFromHome} = useActions();
   const styles = useStyles();
   const inputRef = useRef<TextInput>(null);
 
@@ -49,6 +52,11 @@ const SearchBar: React.FC<SearchBarProps> = ({
 
   const handleSearchCancel = () => {
     setIsSearching(false);
+
+    if (isSearchingFromHome) {
+      setIsSearchingFromHome(false);
+      navigation.navigate('Home');
+    }
   };
 
   const handleSearchStartEditing = () => {

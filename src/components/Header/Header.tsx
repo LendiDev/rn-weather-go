@@ -10,7 +10,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {PADDING_HORIZONTAL} from '../../constants';
+import {PADDING_HORIZONTAL, PADDING_VERTICAL} from '../../constants';
 import {useTypedSelector} from '../../hooks/useTypedSelector';
 
 type HeaderProps = {
@@ -26,13 +26,14 @@ export const TOTAL_HEADER_HEIGHT =
 
 const Header: React.FC<HeaderProps> = ({title, children, scrollY}) => {
   const insets = useSafeAreaInsets();
-  const {isSearching} = useTypedSelector(
+  const {isSearching, isSearchingFromHome} = useTypedSelector(
     state => state.screens.locationsScreen,
   );
-
   const storedLargeTitleY = useSharedValue(0);
   const childY = useSharedValue(0);
   const largeTitleContainerOpacity = useSharedValue(1);
+
+  const ANIMATION_DURATION_MS = isSearchingFromHome ? 0 : 250;
 
   useAnimatedReaction(
     () => isSearching,
@@ -42,10 +43,14 @@ const Header: React.FC<HeaderProps> = ({title, children, scrollY}) => {
           storedLargeTitleY.value === -TITLE_ROW_HEIGHT
             ? -TITLE_ROW_HEIGHT
             : -TITLE_ROW_HEIGHT * 2;
-        largeTitleContainerOpacity.value = withTiming(0, {duration: 150});
+        largeTitleContainerOpacity.value = withTiming(0, {
+          duration: ANIMATION_DURATION_MS,
+        });
       } else {
         childY.value = 0;
-        largeTitleContainerOpacity.value = withTiming(1, {duration: 350});
+        largeTitleContainerOpacity.value = withTiming(1, {
+          duration: ANIMATION_DURATION_MS,
+        });
       }
     },
   );
@@ -55,10 +60,11 @@ const Header: React.FC<HeaderProps> = ({title, children, scrollY}) => {
       transform: [
         {
           translateY: withTiming(childY.value, {
-            duration: 200,
+            duration: ANIMATION_DURATION_MS,
           }),
         },
       ],
+      paddingTop: PADDING_VERTICAL,
     };
   }, [isSearching]);
 

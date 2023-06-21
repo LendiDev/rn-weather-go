@@ -2,10 +2,12 @@ import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 
 export interface LocationsScreenState {
   isSearching: boolean;
+  isSearchingFromHome: boolean;
 }
 
 const initialState: LocationsScreenState = {
   isSearching: false,
+  isSearchingFromHome: false,
 };
 
 export const locationsScreen = createSlice({
@@ -14,6 +16,12 @@ export const locationsScreen = createSlice({
   reducers: {
     setIsSearching: (state, {payload: isSearching}: PayloadAction<boolean>) => {
       state.isSearching = isSearching;
+    },
+    setIsSearchingFromHome: (
+      state,
+      {payload: isSearchingFromHome}: PayloadAction<boolean>,
+    ) => {
+      state.isSearchingFromHome = isSearchingFromHome;
     },
   },
 });

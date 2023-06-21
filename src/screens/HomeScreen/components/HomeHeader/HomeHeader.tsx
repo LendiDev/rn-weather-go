@@ -8,6 +8,7 @@ import {useActions} from '../../../../hooks/useActions';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {LocationsScreenProps} from '../../../../types';
+import Animated from 'react-native-reanimated';
 
 export const HomeHeader: React.FC = () => {
   const theme = useTheme();
@@ -15,22 +16,23 @@ export const HomeHeader: React.FC = () => {
   const styles = useMemo(() => createStyles(theme, insets), [theme, insets]);
 
   const {selectedLocation} = useTypedSelector(state => state.locations);
-  const {setIsSearching} = useActions();
+  const {setIsSearching, setIsSearchingFromHome} = useActions();
   const navigation = useNavigation<LocationsScreenProps['navigation']>();
 
   const handleSearchBarPress = () => {
     setIsSearching(true);
+    setIsSearchingFromHome(true);
     navigation.navigate('Locations');
   };
 
   return (
     <View style={styles.root}>
-      <View style={[styles.halfContainer, styles.searchBarContainer]}>
+      <Animated.View style={[styles.halfContainer, styles.searchBarContainer]}>
         <SearchBar
           value={selectedLocation?.displayName}
           onPressAction={handleSearchBarPress}
         />
-      </View>
+      </Animated.View>
       <View style={styles.halfContainer}>
         <LocationsList />
       </View>

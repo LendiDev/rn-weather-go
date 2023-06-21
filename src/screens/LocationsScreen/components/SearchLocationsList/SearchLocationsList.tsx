@@ -6,6 +6,7 @@ import {useTheme} from '@react-navigation/native';
 import {useMemo} from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {createStyles} from './SearchLocationsList.styles';
+import {useTypedSelector} from '../../../../hooks/useTypedSelector';
 
 interface SearchLocationsListProps {
   debouncedSearchTerm: string;
@@ -22,11 +23,13 @@ const SearchLocationsList: React.FC<SearchLocationsListProps> = ({
   const insets = useSafeAreaInsets();
   const styles = useMemo(() => createStyles(theme, insets), [theme, insets]);
 
+  const {isSearchingFromHome} = useTypedSelector(
+    state => state.screens.locationsScreen,
+  );
   const {data: locations, error} = useGetLocationsQuery(debouncedSearchTerm);
 
   const suggestions = locations?.suggestions || [];
   const lastItemIndex = suggestions.length - 1;
-  const isSearchEmpty = searchValue.length < 1;
 
   return (
     <View
@@ -35,8 +38,8 @@ const SearchLocationsList: React.FC<SearchLocationsListProps> = ({
       {isSearching && (
         <Animated.View
           exiting={FadeOut}
-          entering={FadeIn}
-          style={[isSearchEmpty ? styles.backdrop : styles.backdropSearching]}
+          entering={isSearchingFromHome ? undefined : FadeIn}
+          style={styles.backdrop}
         />
       )}
       {error && <Text>{error.toString()}</Text>}
