@@ -11,8 +11,8 @@ export const createStyles = (theme: ExtendedTheme) => {
     fab: {
       position: 'absolute',
       flex: 1,
-      bottom: 16,
-      right: 16,
+      bottom: 20,
+      right: 20,
       zIndex: 200,
       height: 55,
       width: 55,
@@ -20,6 +20,13 @@ export const createStyles = (theme: ExtendedTheme) => {
       justifyContent: 'center',
       alignItems: 'center',
       borderRadius: 100,
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 3.5,
+      },
+      shadowOpacity: 0.2,
+      shadowRadius: 2.62,
       elevation: 4,
     },
   });

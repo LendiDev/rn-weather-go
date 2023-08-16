@@ -1,5 +1,10 @@
 import * as NavigationService from 'react-navigation-helpers';
-import {TextInput, TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useStyles} from './SearchBar.styles';
 import {useCallback, useEffect, useRef} from 'react';
 import Text from '../Text/Text';
@@ -12,6 +17,7 @@ interface SearchBarProps {
   setSearchValue?: (searchTerm: string) => void;
   placeholder?: string;
   onPressAction?: () => void;
+  isLoading?: boolean;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({
@@ -19,6 +25,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   setSearchValue,
   placeholder = 'Search for location',
   onPressAction,
+  isLoading = false,
 }) => {
   const {isSearchingFromHome} = useTypedSelector(
     state => state.screens.locationsScreen,
@@ -62,31 +69,33 @@ const SearchBar: React.FC<SearchBarProps> = ({
   return (
     <>
       {!onPressAction ? (
-        <TextInput
-          ref={inputRef}
-          style={styles.root}
-          value={searchTerm}
-          autoFocus={true}
-          placeholder={placeholder}
-          onChangeText={handleSearch}
-          textContentType="location"
-        />
+        <>
+          <View style={{flex: 1}}>
+            <TextInput
+              ref={inputRef}
+              style={styles.root}
+              value={searchTerm}
+              autoFocus={true}
+              placeholder={placeholder}
+              onChangeText={handleSearch}
+              textContentType="location"
+            />
+            {isLoading && <ActivityIndicator style={styles.loadingIndicator} />}
+          </View>
+          <View>
+            <TouchableOpacity
+              style={styles.cancelButton}
+              onPress={handleSearchCancel}>
+              <Text>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </>
       ) : (
         <>
           <TouchableOpacity style={styles.root} onPress={onPressAction}>
             <Text>{value}</Text>
           </TouchableOpacity>
         </>
-      )}
-
-      {!onPressAction && (
-        <View>
-          <TouchableOpacity
-            style={styles.cancelButton}
-            onPress={handleSearchCancel}>
-            <Text>Cancel</Text>
-          </TouchableOpacity>
-        </View>
       )}
     </>
   );

@@ -1,13 +1,13 @@
 import * as NavigationService from 'react-navigation-helpers';
-import {Suggestion} from '../../../../../types/hereAPI.types';
-import {Text} from '../../../../../components';
+import {Suggestion} from '../../../../types/hereAPI.types';
+import {Text} from '../../../../components';
 import Animated, {FadeIn} from 'react-native-reanimated';
 import {useStyles} from './SearchLocationsItem.styles';
 import {Keyboard, TouchableOpacity, View} from 'react-native';
-import {useActions} from '../../../../../hooks/useActions';
-import {useLazyGetCoordinatesByIdQuery} from '../../../../../store/api/locationGeocode.api';
-import {Location} from '../../../../../types';
-import {SCREENS} from '../../../../../shared/screens';
+import {useActions} from '../../../../hooks/useActions';
+import {useLazyGetCoordinatesByIdQuery} from '../../../../store/api/locationGeocode.api';
+import {Location} from '../../../../types';
+import {SCREENS} from '../../../../shared/screens';
 
 interface SearchLocationsItemProps {
   index: number;

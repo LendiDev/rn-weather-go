@@ -10,6 +10,9 @@ import {useActions} from '../hooks/useActions';
 import {useTypedSelector} from '../hooks/useTypedSelector';
 import {SCREENS} from '../shared/screens';
 
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+
 const BottomTabStack = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -46,7 +49,13 @@ const BottomNavigation = () => {
       }}
       initialRouteName={SCREENS.HOME}>
       <BottomTabStack.Screen
-        options={{headerShown: false}}
+        options={{
+          headerShown: false,
+          tabBarLabelStyle: {marginBottom: 5},
+          tabBarIcon: ({color}) => (
+            <Ionicons name="cloudy-outline" size={30} color={color} />
+          ),
+        }}
         name={SCREENS.HOME}
         component={HomeScreen}
       />
@@ -66,12 +75,22 @@ const BottomNavigation = () => {
               <Text color={'primary'}>{editButtonText}</Text>
             </TouchableOpacity>
           ),
+          tabBarLabelStyle: {marginBottom: 5},
+          tabBarIcon: ({color}) => (
+            <SimpleLineIcons name="globe" size={22.5} color={color} />
+          ),
         }}
       />
 
       <BottomTabStack.Screen
         name={SCREENS.SETTINGS}
         component={SettingsScreen}
+        options={{
+          tabBarLabelStyle: {marginBottom: 5},
+          tabBarIcon: ({color}) => (
+            <SimpleLineIcons name="settings" size={22.5} color={color} />
+          ),
+        }}
       />
     </BottomTabStack.Navigator>
   );

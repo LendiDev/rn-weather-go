@@ -19,6 +19,7 @@ interface TextProps extends RNTextProps {
   style?: StyleProp<TextStyle> | Array<StyleProp<TextStyle>>;
   children?: React.ReactNode;
   value?: string;
+  numberOfLines?: number;
 }
 
 const Text: React.FC<TextProps> = ({
@@ -33,6 +34,7 @@ const Text: React.FC<TextProps> = ({
   fontSize,
   children,
   value,
+  numberOfLines,
 }) => {
   const {colors} = useTheme();
 
@@ -55,7 +57,9 @@ const Text: React.FC<TextProps> = ({
   };
 
   return (
-    <RNText style={[styles.default, styles.override, style]}>
+    <RNText
+      numberOfLines={numberOfLines}
+      style={[styles.default, styles.override, style]}>
       {children || value}
     </RNText>
   );

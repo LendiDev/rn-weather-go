@@ -1,23 +1,25 @@
 import SearchLocationsItem from './SearchLocationsItem/SearchLocationsItem';
 import {FlatList, Text, View} from 'react-native';
-import {useGetLocationsQuery} from '../../../../store/api/locationSuggestions.api';
+import {useGetLocationsQuery} from '../../../store/api/locationSuggestions.api';
 import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
 import {useTheme} from '@react-navigation/native';
-import {useMemo} from 'react';
+import {useEffect, useMemo} from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {createStyles} from './SearchLocationsList.styles';
-import {useTypedSelector} from '../../../../hooks/useTypedSelector';
+import {useTypedSelector} from '../../../hooks/useTypedSelector';
 
 interface SearchLocationsListProps {
   debouncedSearchTerm: string;
   searchValue: string;
   isSearching: boolean;
+  setIsLoading: (loading: boolean) => void;
 }
 
 const SearchLocationsList: React.FC<SearchLocationsListProps> = ({
   debouncedSearchTerm,
   searchValue,
   isSearching,
+  setIsLoading,
 }) => {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
@@ -26,10 +28,18 @@ const SearchLocationsList: React.FC<SearchLocationsListProps> = ({
   const {isSearchingFromHome} = useTypedSelector(
     state => state.screens.locationsScreen,
   );
-  const {data: locations, error} = useGetLocationsQuery(debouncedSearchTerm);
+  const {
+    data: locations,
+    error,
+    isFetching,
+  } = useGetLocationsQuery(debouncedSearchTerm);
 
   const suggestions = locations?.suggestions || [];
   const lastItemIndex = suggestions.length - 1;
+
+  useEffect(() => {
+    setIsLoading(isFetching);
+  }, [isFetching]);
 
   return (
     <View

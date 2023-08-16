@@ -108,8 +108,8 @@ const LocationRenderItem: React.FC<RenderItemParams<Location>> = ({
       marginRight: MARGIN_HORIZONTAL / 1.5,
       backgroundColor: colors.destructive,
       borderRadius: 15,
-      height: 22,
-      width: 22,
+      height: 24,
+      width: 24,
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -130,7 +130,7 @@ const LocationRenderItem: React.FC<RenderItemParams<Location>> = ({
             <TouchableOpacity
               style={styles.deleteButton}
               onPress={handleDeleteLocationPressed}>
-              <FeatherIcon color={'white'} size={13} name="minus" />
+              <FeatherIcon color={'white'} size={12} name="minus" />
             </TouchableOpacity>
           </Animated.View>
         )}
@@ -138,7 +138,11 @@ const LocationRenderItem: React.FC<RenderItemParams<Location>> = ({
           style={styles.locationInfoContainer}
           onPress={handleLocationPressed}>
           <Text>{item.displayName}</Text>
-          <Text fontSize={14} color="inactive">
+          <Text
+            numberOfLines={1}
+            ellipsizeMode="tail"
+            fontSize={14}
+            color="inactive">
             {item.additionalInfo}
           </Text>
         </TouchableOpacity>
@@ -169,7 +173,7 @@ const LocationsList: React.FC = () => {
     <View style={styles.mainContainer}>
       <DraggableFlatList
         onDragEnd={({data}: {data: Location[]}) => reorderLocations(data)}
-        contentContainerStyle={{paddingBottom: 75, paddingTop: 5}}
+        contentContainerStyle={{paddingBottom: 85, paddingTop: 5}}
         data={savedLocations || []}
         renderItem={LocationRenderItem}
         keyExtractor={item => item.id}

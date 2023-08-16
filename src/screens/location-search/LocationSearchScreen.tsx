@@ -5,13 +5,16 @@ import {useTypedSelector} from '../../hooks/useTypedSelector';
 import {useDebounce} from '../../hooks/useDebounce';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {MARGIN_HORIZONTAL} from '../../shared/constants';
+import {useState} from 'react';
 
 const SearchLocationsScreen = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const searchTerm = useTypedSelector(
     state => state.screens.locationsScreen.searchFor,
   );
 
-  const debouncedSearchTerm = useDebounce(searchTerm, 200);
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -25,12 +28,13 @@ const SearchLocationsScreen = () => {
           borderBottomColor: '#ECECEC',
           borderBottomWidth: 1,
         }}>
-        <SearchBar />
+        <SearchBar isLoading={isLoading} />
       </View>
       <SearchLocationsList
         debouncedSearchTerm={debouncedSearchTerm}
         searchValue={searchTerm}
         isSearching={true}
+        setIsLoading={setIsLoading}
       />
     </SafeAreaView>
   );

@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 import {
   PADDING_HORIZONTAL,
   PADDING_VERTICAL,
-} from '../../../../../shared/constants';
+} from '../../../../shared/constants';
 
 export const useStyles = () => {
   //const {colors} = useTypedTheme();
