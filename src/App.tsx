@@ -1,7 +1,11 @@
-/* eslint-disable react-native/no-inline-styles */
 import {NavigationContainer} from '@react-navigation/native';
 import {MainNavigation} from './navigation/MainNavigation';
-import {StatusBar, StatusBarStyle, useColorScheme} from 'react-native';
+import {
+  Platform,
+  StatusBar,
+  StatusBarStyle,
+  useColorScheme,
+} from 'react-native';
 import {MainThemeDark} from './themes/MainTheme';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {isReadyRef, navigationRef} from 'react-navigation-helpers';
@@ -26,12 +30,14 @@ function App(): JSX.Element {
 
   return (
     <>
-      <StatusBar
-        backgroundColor="transparent"
-        translucent
-        barStyle={statusBarStyle}
-        animated={true}
-      />
+      {Platform.OS === 'android' && (
+        <StatusBar
+          backgroundColor="transparent"
+          translucent
+          barStyle={statusBarStyle}
+          animated={true}
+        />
+      )}
       <ActionSheetProvider>
         <Provider store={store}>
           <PersistGate persistor={persistor}>

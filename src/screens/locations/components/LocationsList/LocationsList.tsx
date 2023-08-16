@@ -95,7 +95,7 @@ const LocationRenderItem: React.FC<RenderItemParams<Location>> = ({
       paddingRight: PADDING_HORIZONTAL,
       backgroundColor: 'white',
       height: 55,
-      borderBottomColor: colors.input,
+      borderBottomColor: colors.border,
       borderBottomWidth: 1,
     },
     locationInfoContainer: {

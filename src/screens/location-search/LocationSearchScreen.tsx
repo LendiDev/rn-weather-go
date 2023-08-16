@@ -3,12 +3,15 @@ import {SearchBar} from '../../components';
 import {SearchLocationsList} from '../locations/components';
 import {useTypedSelector} from '../../hooks/useTypedSelector';
 import {useDebounce} from '../../hooks/useDebounce';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {MARGIN_HORIZONTAL} from '../../shared/constants';
 import {useState} from 'react';
+import {useSafeAreaStyles} from '../../hooks/useSafeAreaStyles';
+import {useTheme} from '@react-navigation/native';
 
 const SearchLocationsScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const safeAreaStyles = useSafeAreaStyles(true);
+  const {colors} = useTheme();
 
   const searchTerm = useTypedSelector(
     state => state.screens.locationsScreen.searchFor,
@@ -17,7 +20,7 @@ const SearchLocationsScreen = () => {
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <View style={{...safeAreaStyles}}>
       <View
         style={{
           flex: 1,
@@ -25,8 +28,8 @@ const SearchLocationsScreen = () => {
           maxHeight: 55,
           alignItems: 'center',
           paddingHorizontal: MARGIN_HORIZONTAL,
-          borderBottomColor: '#ECECEC',
-          borderBottomWidth: 1,
+          borderBottomColor: colors.border,
+          borderBottomWidth: 0.5,
         }}>
         <SearchBar isLoading={isLoading} />
       </View>
@@ -36,7 +39,7 @@ const SearchLocationsScreen = () => {
         isSearching={true}
         setIsLoading={setIsLoading}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 

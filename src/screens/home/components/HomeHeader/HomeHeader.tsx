@@ -28,7 +28,11 @@ export const HomeHeader: React.FC = () => {
     <View style={styles.root}>
       <Animated.View style={[styles.halfContainer, styles.searchBarContainer]}>
         <SearchBar
-          value={selectedLocation?.displayName}
+          value={
+            selectedLocation?.displayName +
+            ', ' +
+            selectedLocation?.additionalInfo
+          }
           onPressAction={handleSearchBarPress}
         />
       </Animated.View>

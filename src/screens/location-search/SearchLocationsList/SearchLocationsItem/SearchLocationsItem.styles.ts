@@ -3,8 +3,11 @@ import {
   PADDING_HORIZONTAL,
   PADDING_VERTICAL,
 } from '../../../../shared/constants';
+import {useTheme} from '@react-navigation/native';
 
 export const useStyles = () => {
+  const {colors} = useTheme();
+
   return StyleSheet.create({
     cellContainer: {
       flex: 1,
@@ -24,7 +27,7 @@ export const useStyles = () => {
     separatorLine: {
       marginLeft: PADDING_HORIZONTAL,
       borderBottomWidth: 1,
-      borderColor: '#ddd',
+      borderColor: colors.border,
     },
   });
 };

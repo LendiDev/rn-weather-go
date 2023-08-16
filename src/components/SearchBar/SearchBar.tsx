@@ -93,7 +93,9 @@ const SearchBar: React.FC<SearchBarProps> = ({
       ) : (
         <>
           <TouchableOpacity style={styles.root} onPress={onPressAction}>
-            <Text>{value}</Text>
+            <Text ellipsizeMode="head" numberOfLines={1} color="primary">
+              {value}
+            </Text>
           </TouchableOpacity>
         </>
       )}

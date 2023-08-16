@@ -29,6 +29,7 @@ const SearchLocationsList: React.FC<SearchLocationsListProps> = ({
     state => state.screens.locationsScreen,
   );
   const {
+    isLoading,
     data: locations,
     error,
     isFetching,
@@ -38,7 +39,7 @@ const SearchLocationsList: React.FC<SearchLocationsListProps> = ({
   const lastItemIndex = suggestions.length - 1;
 
   useEffect(() => {
-    setIsLoading(isFetching);
+    setIsLoading(!isLoading && isFetching);
   }, [isFetching]);
 
   return (
