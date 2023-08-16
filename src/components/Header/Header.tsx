@@ -1,5 +1,4 @@
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import {Text} from '..';
+import {StyleSheet, View} from 'react-native';
 import Animated, {
   Extrapolation,
   SharedValue,
@@ -10,13 +9,15 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {PADDING_HORIZONTAL, PADDING_VERTICAL} from '../../constants';
+import {PADDING_HORIZONTAL, PADDING_VERTICAL} from '../../shared/constants';
 import {useTypedSelector} from '../../hooks/useTypedSelector';
 
 type HeaderProps = {
   title: string;
   children?: React.ReactNode;
   scrollY?: SharedValue<number>;
+  leftActionComponent?: React.ReactNode;
+  rightActionComponent?: React.ReactNode;
 };
 
 export const TITLE_ROW_HEIGHT = 46;
@@ -24,7 +25,13 @@ export const LARGE_TITLE_ROW_HEIGHT = 46;
 export const TOTAL_HEADER_HEIGHT =
   LARGE_TITLE_ROW_HEIGHT * 2 + TITLE_ROW_HEIGHT;
 
-const Header: React.FC<HeaderProps> = ({title, children, scrollY}) => {
+const Header: React.FC<HeaderProps> = ({
+  title,
+  children,
+  scrollY,
+  leftActionComponent,
+  rightActionComponent,
+}) => {
   const insets = useSafeAreaInsets();
   const {isSearching, isSearchingFromHome} = useTypedSelector(
     state => state.screens.locationsScreen,
@@ -120,7 +127,8 @@ const Header: React.FC<HeaderProps> = ({title, children, scrollY}) => {
 
   const styles = StyleSheet.create({
     mainContainer: {
-      zIndex: 20,
+      zIndex: 10,
+      backgroundColor: 'red',
     },
     statusBar: {
       top: 0,
@@ -169,13 +177,11 @@ const Header: React.FC<HeaderProps> = ({title, children, scrollY}) => {
       <Animated.View
         style={[styles.mainContainer, animatedSearchBarContainerYStyle]}>
         <Animated.View style={[styles.titleContainer]}>
-          <TouchableOpacity style={styles.actionButtonLeft} />
+          <View style={styles.actionButtonLeft}>{leftActionComponent}</View>
           <Animated.Text style={[styles.titleText, animatedTitleOpacityStyle]}>
             {title}
           </Animated.Text>
-          <TouchableOpacity style={styles.actionButtonRight}>
-            <Text>Edit</Text>
-          </TouchableOpacity>
+          <View style={styles.actionButtonRight}>{rightActionComponent}</View>
         </Animated.View>
         <Animated.View
           style={[

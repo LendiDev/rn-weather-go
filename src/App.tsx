@@ -4,6 +4,7 @@ import {MainNavigation} from './navigation/MainNavigation';
 import {StatusBar, StatusBarStyle, useColorScheme} from 'react-native';
 import {MainThemeDark} from './themes/MainTheme';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {isReadyRef, navigationRef} from 'react-navigation-helpers';
 import {Provider} from 'react-redux';
 import {store} from './store/store';
 import {PersistGate} from 'redux-persist/integration/react';
@@ -11,6 +12,7 @@ import {persistStore} from 'redux-persist';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {enableScreens} from 'react-native-screens';
 import {customTheme} from './themes/customTheme';
+import {useEffect} from 'react';
 
 enableScreens();
 
@@ -22,12 +24,21 @@ function App(): JSX.Element {
 
   const persistor = persistStore(store);
 
+  useEffect((): any => {
+    return () => (isReadyRef.current = false);
+  }, []);
+
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <SafeAreaProvider>
           <GestureHandlerRootView style={{flex: 1}}>
-            <NavigationContainer theme={theme}>
+            <NavigationContainer
+              ref={navigationRef}
+              onReady={() => {
+                isReadyRef.current = true;
+              }}
+              theme={theme}>
               <StatusBar
                 backgroundColor={theme.colors.background}
                 barStyle={statusBarStyle}

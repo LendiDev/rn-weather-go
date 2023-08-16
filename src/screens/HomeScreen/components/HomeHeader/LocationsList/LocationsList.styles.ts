@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {MARGIN_HORIZONTAL} from '../../../../../constants';
+import {MARGIN_HORIZONTAL} from '../../../../../shared/constants';
 
 export const useStyles = () => {
   //const {colors} = useTypedTheme();

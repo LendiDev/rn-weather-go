@@ -7,11 +7,6 @@ export const createStyles = (_theme: ExtendedTheme, insets: EdgeInsets) => {
   return StyleSheet.create({
     contentContainer: {
       zIndex: 2,
-      marginTop: insets.top + LARGE_TITLE_ROW_HEIGHT,
-      position: 'absolute',
-      width: '100%',
-      top: 0,
-      bottom: 0,
     },
     backdrop: {
       zIndex: 1,

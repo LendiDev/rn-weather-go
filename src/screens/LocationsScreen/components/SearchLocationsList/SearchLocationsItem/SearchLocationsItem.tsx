@@ -1,3 +1,4 @@
+import * as NavigationService from 'react-navigation-helpers';
 import {Suggestion} from '../../../../../types/hereAPI.types';
 import {Text} from '../../../../../components';
 import Animated, {FadeIn} from 'react-native-reanimated';
@@ -5,8 +6,8 @@ import {useStyles} from './SearchLocationsItem.styles';
 import {Keyboard, TouchableOpacity, View} from 'react-native';
 import {useActions} from '../../../../../hooks/useActions';
 import {useLazyGetCoordinatesByIdQuery} from '../../../../../store/api/locationGeocode.api';
-import {useNavigation} from '@react-navigation/native';
-import {Location, LocationsScreenProps} from '../../../../../types';
+import {Location} from '../../../../../types';
+import {SCREENS} from '../../../../../shared/screens';
 
 interface SearchLocationsItemProps {
   index: number;
@@ -27,7 +28,6 @@ const SearchLocationsItem: React.FC<SearchLocationsItemProps> = ({
   const [getCoordinates] = useLazyGetCoordinatesByIdQuery();
   const {setIsSearching} = useActions();
 
-  const navigation = useNavigation<LocationsScreenProps['navigation']>();
   const styles = useStyles();
 
   const isLastItem = index === lastItemIndex;
@@ -53,7 +53,7 @@ const SearchLocationsItem: React.FC<SearchLocationsItemProps> = ({
         addLocationAndSelect(locationDetails);
         setIsManualLocationSelection(false);
         setIsSearchingFromHome(false);
-        navigation.navigate('Home');
+        NavigationService.navigate(SCREENS.HOME);
       })
       .catch((err: any) => {
         console.log(err);

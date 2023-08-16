@@ -8,10 +8,12 @@ export const createStyles = (_theme: ExtendedTheme, _insets: EdgeInsets) => {
       flex: 1,
     },
     searchContainer: {
-      zIndex: 5,
-      flexDirection: 'row',
-      alignItems: 'flex-start',
-      paddingBottom: 5,
+      // zIndex: 5,
+      // flexDirection: 'row',
+      // alignItems: 'flex-start',
+      // paddingBottom: 5,
+      width: 300,
+      height: 50,
     },
   });
 };

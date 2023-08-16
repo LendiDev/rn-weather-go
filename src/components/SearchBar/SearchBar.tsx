@@ -1,11 +1,11 @@
-import {Keyboard, TextInput, TouchableOpacity, View} from 'react-native';
+import * as NavigationService from 'react-navigation-helpers';
+import {TextInput, TouchableOpacity, View} from 'react-native';
 import {useStyles} from './SearchBar.styles';
-import {useCallback, useEffect, useRef, useState} from 'react';
+import {useCallback, useEffect, useRef} from 'react';
 import Text from '../Text/Text';
 import {useTypedSelector} from '../../hooks/useTypedSelector';
 import {useActions} from '../../hooks/useActions';
-import {useNavigation} from '@react-navigation/native';
-import {LocationsScreenProps} from '../../types';
+import {SCREENS} from '../../shared/screens';
 
 interface SearchBarProps {
   value?: string;
@@ -20,12 +20,15 @@ const SearchBar: React.FC<SearchBarProps> = ({
   placeholder = 'Search for location',
   onPressAction,
 }) => {
-  const [searchTerm, setSearchTerm] = useState(value);
-  const {isSearching, isSearchingFromHome} = useTypedSelector(
+  const {isSearchingFromHome} = useTypedSelector(
     state => state.screens.locationsScreen,
   );
-  const navigation = useNavigation<LocationsScreenProps['navigation']>();
-  const {setIsSearching, setIsSearchingFromHome} = useActions();
+  const searchTerm = useTypedSelector(
+    state => state.screens.locationsScreen.searchFor,
+  );
+
+  const {setSearchFor: setSearchTerm} = useActions();
+  const {setIsSearchingFromHome} = useActions();
   const styles = useStyles();
   const inputRef = useRef<TextInput>(null);
 
@@ -40,27 +43,20 @@ const SearchBar: React.FC<SearchBarProps> = ({
   );
 
   useEffect(() => {
-    if (!isSearching) {
-      handleSearch('');
-      Keyboard.dismiss();
-    } else {
-      setTimeout(() => {
-        inputRef.current?.focus();
-      }, 50);
-    }
-  }, [handleSearch, isSearching]);
+    inputRef.current?.focus();
+
+    return () => {
+      setSearchTerm('');
+    };
+  }, []);
 
   const handleSearchCancel = () => {
-    setIsSearching(false);
-
     if (isSearchingFromHome) {
-      navigation.navigate('Home');
+      NavigationService.navigate(SCREENS.HOME);
       setIsSearchingFromHome(false);
+    } else {
+      NavigationService.pop();
     }
-  };
-
-  const handleSearchStartEditing = () => {
-    setIsSearching(true);
   };
 
   return (
@@ -70,9 +66,9 @@ const SearchBar: React.FC<SearchBarProps> = ({
           ref={inputRef}
           style={styles.root}
           value={searchTerm}
+          autoFocus={true}
           placeholder={placeholder}
           onChangeText={handleSearch}
-          onFocus={handleSearchStartEditing}
           textContentType="location"
         />
       ) : (
@@ -83,7 +79,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
         </>
       )}
 
-      {isSearching && !onPressAction && (
+      {!onPressAction && (
         <View>
           <TouchableOpacity
             style={styles.cancelButton}

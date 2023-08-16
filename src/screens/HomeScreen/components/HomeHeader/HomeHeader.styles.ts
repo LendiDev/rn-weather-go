@@ -1,5 +1,8 @@
 import {StyleSheet} from 'react-native';
-import {MAIN_HEADER_HEIGHT, MARGIN_HORIZONTAL} from '../../../../constants';
+import {
+  MAIN_HEADER_HEIGHT,
+  MARGIN_HORIZONTAL,
+} from '../../../../shared/constants';
 import {ExtendedTheme} from '@react-navigation/native';
 import {EdgeInsets} from 'react-native-safe-area-context';
 

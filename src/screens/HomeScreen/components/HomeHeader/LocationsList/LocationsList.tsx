@@ -13,10 +13,9 @@ const LocationsList: React.FC = () => {
   );
 
   const styles = useStyles();
-  const {saved: savedLocations, selectedLocation} = useTypedSelector(
-    state => state.locations,
-  );
+  const {saved, selectedLocation} = useTypedSelector(state => state.locations);
 
+  const savedLocations = saved || [];
   const listRef = useRef<ScrollView>(null);
 
   useFocusEffect(
@@ -61,13 +60,14 @@ const LocationsList: React.FC = () => {
       horizontal
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.contentContainer}>
-      {savedLocations.map((item, index) => {
-        return (
-          <View key={item.id} onLayout={e => onLayoutHandler(e, index)}>
-            <ListItem item={item} selectedLocation={selectedLocation} />
-          </View>
-        );
-      })}
+      {savedLocations &&
+        savedLocations.map((item, index) => {
+          return (
+            <View key={item.id} onLayout={e => onLayoutHandler(e, index)}>
+              <ListItem item={item} selectedLocation={selectedLocation} />
+            </View>
+          );
+        })}
     </ScrollView>
   );
 };

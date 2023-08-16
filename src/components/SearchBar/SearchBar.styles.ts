@@ -1,11 +1,12 @@
-import {StyleSheet} from 'react-native';
-import {PADDING_HORIZONTAL} from '../../constants';
+import {Dimensions, Platform, StyleSheet} from 'react-native';
+import {MARGIN_HORIZONTAL, PADDING_HORIZONTAL} from '../../shared/constants';
 import {useTheme} from '@react-navigation/native';
 
 const SEARCH_BAR_HEIGHT = 40;
 
 export const useStyles = () => {
   const {colors} = useTheme();
+  const {width} = Dimensions.get('window');
 
   const styles = StyleSheet.create({
     root: {

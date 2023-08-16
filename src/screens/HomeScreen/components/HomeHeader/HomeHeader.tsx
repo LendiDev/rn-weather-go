@@ -1,3 +1,4 @@
+import * as NavigationService from 'react-navigation-helpers';
 import {View} from 'react-native';
 import {createStyles} from './HomeHeader.styles';
 import {SearchBar} from '../../../../components';
@@ -5,10 +6,10 @@ import LocationsList from './LocationsList/LocationsList';
 import {useTypedSelector} from '../../../../hooks/useTypedSelector';
 import React, {useMemo} from 'react';
 import {useActions} from '../../../../hooks/useActions';
-import {useNavigation, useTheme} from '@react-navigation/native';
+import {useTheme} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {LocationsScreenProps} from '../../../../types';
 import Animated from 'react-native-reanimated';
+import {SCREENS} from '../../../../shared/screens';
 
 export const HomeHeader: React.FC = () => {
   const theme = useTheme();
@@ -16,13 +17,11 @@ export const HomeHeader: React.FC = () => {
   const styles = useMemo(() => createStyles(theme, insets), [theme, insets]);
 
   const {selectedLocation} = useTypedSelector(state => state.locations);
-  const {setIsSearching, setIsSearchingFromHome} = useActions();
-  const navigation = useNavigation<LocationsScreenProps['navigation']>();
+  const {setIsSearchingFromHome} = useActions();
 
   const handleSearchBarPress = () => {
-    setIsSearching(true);
     setIsSearchingFromHome(true);
-    navigation.navigate('Locations');
+    NavigationService.navigate(SCREENS.LOCATION_SEARCH);
   };
 
   return (

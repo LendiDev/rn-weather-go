@@ -1,24 +1,76 @@
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {HomeScreen, SettingsScreen} from '../screens';
 import {LocationsScreen} from '../screens/LocationsScreen';
-import {MainStackParamList} from '../types';
+import SearchLocationsScreen from '../screens/SearchLocationScreen/SearchLocationScreen';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {Text} from '../components';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {PADDING_HORIZONTAL} from '../shared/constants';
+import {useActions} from '../hooks/useActions';
+import {useTypedSelector} from '../hooks/useTypedSelector';
+import {SCREENS} from '../shared/screens';
 
-const BottomTabStack = createBottomTabNavigator<MainStackParamList>();
+const BottomTabStack = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
 export const MainNavigation: React.FC = () => {
   return (
-    <BottomTabStack.Navigator
+    <Stack.Navigator
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName="Home">
-      <BottomTabStack.Screen name="Home" component={HomeScreen} />
-      <BottomTabStack.Screen
-        name="Locations"
-        component={LocationsScreen}
-        options={{lazy: true}}
+      initialRouteName="BottomNavigation">
+      <Stack.Screen name="BottomNavigation" component={BottomNavigation} />
+      <Stack.Screen
+        options={{
+          animation: 'fade_from_bottom',
+        }}
+        name={SCREENS.LOCATION_SEARCH}
+        component={SearchLocationsScreen}
       />
-      <BottomTabStack.Screen name="Settings" component={SettingsScreen} />
+    </Stack.Navigator>
+  );
+};
+
+const BottomNavigation = () => {
+  const isEditing = useTypedSelector(
+    state => state.screens.locationsScreen.isEditing,
+  );
+  const {setIsEditing} = useActions();
+  const editButtonText = isEditing ? 'Done' : 'Edit';
+
+  return (
+    <BottomTabStack.Navigator
+      screenOptions={{
+        headerShown: true,
+      }}
+      initialRouteName={SCREENS.HOME}>
+      <BottomTabStack.Screen
+        options={{headerShown: false}}
+        name={SCREENS.HOME}
+        component={HomeScreen}
+      />
+      <BottomTabStack.Screen
+        name={SCREENS.LOCATIONS}
+        component={LocationsScreen}
+        options={{
+          lazy: false,
+          headerRight: () => (
+            <TouchableOpacity
+              style={{paddingRight: PADDING_HORIZONTAL}}
+              onPress={() => {
+                setIsEditing(!isEditing);
+              }}>
+              <Text>{editButtonText}</Text>
+            </TouchableOpacity>
+          ),
+        }}
+      />
+
+      <BottomTabStack.Screen
+        name={SCREENS.SETTINGS}
+        component={SettingsScreen}
+      />
     </BottomTabStack.Navigator>
   );
 };

@@ -7,8 +7,11 @@ export const createStyles = () => {
       flex: 1,
     },
     listContainer: {
-      marginTop: -LARGE_TITLE_ROW_HEIGHT * 2,
+      //marginTop: -LARGE_TITLE_ROW_HEIGHT * 2,
+      bottom: 50,
     },
-    listContentContainer: {paddingTop: LARGE_TITLE_ROW_HEIGHT * 2},
+    listContentContainer: {
+      //paddingTop: LARGE_TITLE_ROW_HEIGHT * 2
+    },
   });
 };

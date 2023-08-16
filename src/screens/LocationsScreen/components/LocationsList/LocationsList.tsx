@@ -1,31 +1,43 @@
-import React, {ForwardRefRenderFunction, forwardRef, useMemo} from 'react';
+import React, {useMemo} from 'react';
 import {Text} from '../../../../components';
-import Animated from 'react-native-reanimated';
+import Animated, {
+  SlideInLeft,
+  SlideInRight,
+  SlideOutLeft,
+  SlideOutRight,
+} from 'react-native-reanimated';
 import {useTypedSelector} from '../../../../hooks/useTypedSelector';
-import {Location, LocationsScreenProps} from '../../../../types';
-import {
-  TouchableOpacity,
-  StyleSheet,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  View,
-} from 'react-native';
+import {Location} from '../../../../types';
+import {TouchableOpacity, StyleSheet, View, Pressable} from 'react-native';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import FeatherIcon from 'react-native-vector-icons/Feather';
+
 import {useActions} from '../../../../hooks/useActions';
-import {useNavigation} from '@react-navigation/native';
 import {createStyles} from './LocationsList.styles';
-import {MARGIN_HORIZONTAL, PADDING_VERTICAL} from '../../../../constants';
+import * as NavigationService from 'react-navigation-helpers';
+import {
+  MARGIN_HORIZONTAL,
+  PADDING_VERTICAL,
+} from '../../../../shared/constants';
 import DraggableFlatList, {
   RenderItemParams,
+  ScaleDecorator,
 } from 'react-native-draggable-flatlist';
+import {SCREENS} from '../../../../shared/screens';
 
 const LocationRenderItem: React.FC<RenderItemParams<Location>> = ({
   item,
   drag,
   isActive,
+  getIndex,
 }) => {
+  const isEditing = useTypedSelector(
+    state => state.screens.locationsScreen.isEditing,
+  );
+  const {setIsEditing} = useActions();
+
   const {removeLocationById, selectLocation, setIsManualLocationSelection} =
     useActions();
-  const navigation = useNavigation<LocationsScreenProps['navigation']>();
 
   const handleDeleteLocationPressed = () => {
     removeLocationById(item.id);
@@ -33,21 +45,41 @@ const LocationRenderItem: React.FC<RenderItemParams<Location>> = ({
 
   const handleLocationPressed = () => {
     selectLocation(item);
+    setIsEditing(false);
     setIsManualLocationSelection(false);
-    navigation.navigate('Home');
+    NavigationService.navigate(SCREENS.HOME);
   };
 
   const styles = StyleSheet.create({
     mainContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
       paddingVertical: PADDING_VERTICAL,
-      marginHorizontal: MARGIN_HORIZONTAL,
+      paddingHorizontal: MARGIN_HORIZONTAL,
+      backgroundColor: 'white',
+      height: 50,
+    },
+    locationInfoContainer: {
+      flex: 1,
     },
     deleteButton: {
+      alignSelf: 'center',
       paddingVertical: PADDING_VERTICAL,
-      backgroundColor: 'orange',
-      borderRadius: 10,
-      width: 65,
+      marginRight: MARGIN_HORIZONTAL / 2,
+      backgroundColor: '#FF4136',
+      borderRadius: 15,
+      height: 25,
+      width: 25,
       alignItems: 'center',
+      justifyContent: 'center',
+    },
+    dragButton: {
+      alignSelf: 'center',
+      justifyContent: 'center',
+      paddingVertical: PADDING_VERTICAL,
+      alignItems: 'center',
+      zIndex: 100,
+      backgroundColor: 'red',
     },
     active: {
       backgroundColor: '#eee',
@@ -55,50 +87,52 @@ const LocationRenderItem: React.FC<RenderItemParams<Location>> = ({
   });
 
   return (
-    <TouchableOpacity
-      onLongPress={drag}
-      disabled={isActive}
-      style={[isActive && styles.active]}>
+    <ScaleDecorator activeScale={1.03}>
       <View style={styles.mainContainer}>
-        <TouchableOpacity onPress={handleLocationPressed}>
+        {isEditing && (
+          <Animated.View entering={SlideInLeft} exiting={SlideOutLeft}>
+            <TouchableOpacity
+              style={styles.deleteButton}
+              onPress={handleDeleteLocationPressed}>
+              <FeatherIcon color={'white'} size={15} name="minus" />
+            </TouchableOpacity>
+          </Animated.View>
+        )}
+        <TouchableOpacity
+          style={styles.locationInfoContainer}
+          onPress={handleLocationPressed}>
           <Text>{item.displayName}</Text>
           <Text>{item.additionalInfo}</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.deleteButton}
-          onPress={handleDeleteLocationPressed}>
-          <Text>Delete</Text>
-        </TouchableOpacity>
+        {isEditing && (
+          <Animated.View entering={SlideInRight} exiting={SlideOutRight}>
+            <Pressable
+              hitSlop={8}
+              onPressIn={drag}
+              disabled={isActive}
+              delayLongPress={0}
+              style={styles.dragButton}>
+              <MaterialIcon size={20} name="drag-indicator" />
+            </Pressable>
+          </Animated.View>
+        )}
       </View>
-    </TouchableOpacity>
+    </ScaleDecorator>
   );
 };
 
-type ScrollHandler = (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
-
-export interface LocationsListProps {
-  onScrollHandler: ScrollHandler;
-}
-
-const AnimatedDraggableFlatList = Animated.createAnimatedComponent(
-  DraggableFlatList<Location>,
-);
-
-const LocationsList: ForwardRefRenderFunction<
-  Animated.FlatList<LocationsListProps>,
-  LocationsListProps
-> = ({onScrollHandler}, ref: React.ForwardedRef<any>) => {
+const LocationsList: React.FC = () => {
   const styles = useMemo(() => createStyles(), []);
   const savedLocations = useTypedSelector(state => state.locations.saved);
 
+  const {reorderLocations} = useActions();
+
   return (
     <View style={styles.mainContainer}>
-      <AnimatedDraggableFlatList
-        ref={ref}
-        style={styles.listContainer}
-        contentContainerStyle={styles.listContentContainer}
-        onScroll={onScrollHandler}
-        data={savedLocations}
+      <DraggableFlatList
+        onDragEnd={({data}: {data: Location[]}) => reorderLocations(data)}
+        contentContainerStyle={{paddingBottom: 75}}
+        data={savedLocations || []}
         renderItem={LocationRenderItem}
         keyExtractor={item => item.id}
       />
@@ -106,4 +140,4 @@ const LocationsList: ForwardRefRenderFunction<
   );
 };
 
-export default forwardRef(LocationsList);
+export default LocationsList;

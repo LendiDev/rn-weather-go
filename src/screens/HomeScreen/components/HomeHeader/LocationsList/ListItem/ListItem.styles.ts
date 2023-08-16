@@ -1,5 +1,8 @@
 import {StyleSheet} from 'react-native';
-import {MARGIN_VERTICAL, PADDING_HORIZONTAL} from '../../../../../../constants';
+import {
+  MARGIN_VERTICAL,
+  PADDING_HORIZONTAL,
+} from '../../../../../../shared/constants';
 import {ExtendedTheme} from '@react-navigation/native';
 
 export const createStyles = (theme: ExtendedTheme) => {

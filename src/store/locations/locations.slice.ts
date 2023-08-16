@@ -22,6 +22,10 @@ const locationsSlice = createSlice({
       state,
       {payload: location}: PayloadAction<Location>,
     ) => {
+      if (!state.saved) {
+        state.saved = [];
+      }
+
       const existingLocation = state.saved.find(loc => loc.id === location.id);
 
       if (existingLocation) {
@@ -30,6 +34,12 @@ const locationsSlice = createSlice({
         state.saved.push(location);
         state.selectedLocation = location;
       }
+    },
+    reorderLocations: (
+      state,
+      {payload: locations}: PayloadAction<Location[]>,
+    ) => {
+      state.saved = locations;
     },
     removeLocationById: (
       state,
