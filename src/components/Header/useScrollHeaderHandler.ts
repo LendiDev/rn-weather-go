@@ -6,7 +6,7 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated';
 import {snapPoint} from 'react-native-redash';
-import {LocationsListProps} from '../../screens/LocationsScreen/components/LocationsList/LocationsList';
+import {LocationsListProps} from '../../screens/locations/components/LocationsList/LocationsList';
 import {useTypedSelector} from '../../hooks/useTypedSelector';
 
 export const useScrollHeaderHandler = (

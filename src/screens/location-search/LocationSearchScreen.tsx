@@ -1,6 +1,6 @@
 import {View} from 'react-native';
 import {SearchBar} from '../../components';
-import {SearchLocationsList} from '../LocationsScreen/components';
+import {SearchLocationsList} from '../locations/components';
 import {useTypedSelector} from '../../hooks/useTypedSelector';
 import {useDebounce} from '../../hooks/useDebounce';
 import {SafeAreaView} from 'react-native-safe-area-context';

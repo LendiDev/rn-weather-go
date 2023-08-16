@@ -1,11 +1,10 @@
-import {HomeScreenProps} from '../../types';
 import {HomeHeader} from './components';
 import {Text} from '../../components';
 import {View} from 'react-native';
 import {useTypedSelector} from '../../hooks/useTypedSelector';
 import {useStyles} from './HomeScreen.styles';
 
-export const HomeScreen = ({}: HomeScreenProps): JSX.Element => {
+export const HomeScreen = () => {
   const styles = useStyles();
   const {selectedLocation} = useTypedSelector(state => state.locations);
 

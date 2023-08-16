@@ -1,7 +1,7 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {HomeScreen, SettingsScreen} from '../screens';
-import {LocationsScreen} from '../screens/LocationsScreen';
-import SearchLocationsScreen from '../screens/SearchLocationScreen/SearchLocationScreen';
+import {LocationsScreen} from '../screens/locations';
+import SearchLocationsScreen from '../screens/location-search/LocationSearchScreen';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Text} from '../components';
 import {TouchableOpacity} from 'react-native-gesture-handler';

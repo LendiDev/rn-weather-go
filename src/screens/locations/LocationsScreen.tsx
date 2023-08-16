@@ -1,7 +1,7 @@
 import * as NavigationService from 'react-navigation-helpers';
 import React, {useMemo} from 'react';
 import {TouchableOpacity} from 'react-native';
-import {LocationsList} from './components/';
+import {LocationsList} from './components';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {createStyles} from './LocationsScreen.styles';
 import {useTheme} from '@react-navigation/native';
