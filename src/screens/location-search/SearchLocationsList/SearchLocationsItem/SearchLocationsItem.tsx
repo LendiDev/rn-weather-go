@@ -3,11 +3,17 @@ import {Suggestion} from '../../../../types/hereAPI.types';
 import {Text} from '../../../../components';
 import Animated, {FadeIn} from 'react-native-reanimated';
 import {useStyles} from './SearchLocationsItem.styles';
-import {Keyboard, TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Keyboard,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useActions} from '../../../../hooks/useActions';
 import {useLazyGetCoordinatesByIdQuery} from '../../../../store/api/locationGeocode.api';
 import {Location} from '../../../../types';
 import {SCREENS} from '../../../../shared/screens';
+import {useState} from 'react';
 
 interface SearchLocationsItemProps {
   index: number;
@@ -25,6 +31,7 @@ const SearchLocationsItem: React.FC<SearchLocationsItemProps> = ({
     setIsManualLocationSelection,
     setIsSearchingFromHome,
   } = useActions();
+  const [isLoading, setIsLoading] = useState(false);
   const [getCoordinates] = useLazyGetCoordinatesByIdQuery();
   const {setIsSearching} = useActions();
 
@@ -33,6 +40,7 @@ const SearchLocationsItem: React.FC<SearchLocationsItemProps> = ({
   const isLastItem = index === lastItemIndex;
 
   const handleLocationPressed = () => {
+    setIsLoading(true);
     getCoordinates(item.locationId)
       .unwrap()
       .then(coordinates => {
@@ -57,13 +65,22 @@ const SearchLocationsItem: React.FC<SearchLocationsItemProps> = ({
       })
       .catch((err: any) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
   return (
-    <Animated.View style={styles.mainContainer} entering={FadeIn}>
-      <TouchableOpacity onPress={handleLocationPressed}>
+    <Animated.View style={styles.cellContainer} entering={FadeIn}>
+      <TouchableOpacity
+        disabled={isLoading}
+        style={styles.contentContainer}
+        onPress={handleLocationPressed}>
         <Text style={styles.labelText}>{item.label}</Text>
+        <ActivityIndicator
+          style={[styles.loadingIndicator, {opacity: isLoading ? 1 : 0}]}
+        />
       </TouchableOpacity>
       {!isLastItem && <View style={styles.separatorLine} />}
     </Animated.View>

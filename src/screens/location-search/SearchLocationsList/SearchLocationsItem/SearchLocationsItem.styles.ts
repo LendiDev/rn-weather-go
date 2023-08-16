@@ -5,15 +5,21 @@ import {
 } from '../../../../shared/constants';
 
 export const useStyles = () => {
-  //const {colors} = useTypedTheme();
-
   return StyleSheet.create({
-    mainContainer: {
+    cellContainer: {
       flex: 1,
     },
-    labelText: {
-      paddingVertical: PADDING_VERTICAL * 3,
+    contentContainer: {
+      flexDirection: 'row',
       paddingHorizontal: PADDING_HORIZONTAL,
+    },
+    labelText: {
+      flex: 1,
+      paddingVertical: PADDING_VERTICAL * 3,
+    },
+    loadingIndicator: {
+      width: 20,
+      right: 0,
     },
     separatorLine: {
       marginLeft: PADDING_HORIZONTAL,
