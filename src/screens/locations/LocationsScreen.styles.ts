@@ -1,19 +1,26 @@
 import {ExtendedTheme} from '@react-navigation/native';
 import {StyleSheet} from 'react-native';
-import {EdgeInsets} from 'react-native-safe-area-context';
 
-export const createStyles = (_theme: ExtendedTheme, _insets: EdgeInsets) => {
+export const createStyles = (theme: ExtendedTheme) => {
+  const {colors} = theme;
+
   return StyleSheet.create({
     mainContainer: {
       flex: 1,
     },
-    searchContainer: {
-      // zIndex: 5,
-      // flexDirection: 'row',
-      // alignItems: 'flex-start',
-      // paddingBottom: 5,
-      width: 300,
-      height: 50,
+    fab: {
+      position: 'absolute',
+      flex: 1,
+      bottom: 16,
+      right: 16,
+      zIndex: 200,
+      height: 55,
+      width: 55,
+      backgroundColor: colors.primary,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 100,
+      elevation: 4,
     },
   });
 };

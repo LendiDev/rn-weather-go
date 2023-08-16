@@ -1,6 +1,6 @@
 export const SCREENS = {
-  HOME: 'HomeScreen',
-  LOCATIONS: 'LocationsScreen',
-  SETTINGS: 'SettingScreen',
-  LOCATION_SEARCH: 'LocationSearchScreen',
+  HOME: 'Forecast',
+  LOCATIONS: 'Locations',
+  SETTINGS: 'Settings',
+  LOCATION_SEARCH: 'LocationSearch',
 };

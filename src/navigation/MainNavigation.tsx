@@ -59,7 +59,9 @@ const BottomNavigation = () => {
             <TouchableOpacity
               style={{paddingRight: PADDING_HORIZONTAL}}
               onPress={() => {
-                setIsEditing(!isEditing);
+                requestAnimationFrame(() => {
+                  setIsEditing(!isEditing);
+                });
               }}>
               <Text>{editButtonText}</Text>
             </TouchableOpacity>
