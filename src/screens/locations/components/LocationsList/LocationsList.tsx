@@ -8,13 +8,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import {useTypedSelector} from '../../../../hooks/useTypedSelector';
 import {Location} from '../../../../types';
-import {
-  TouchableOpacity,
-  StyleSheet,
-  View,
-  Pressable,
-  ActionSheetIOS,
-} from 'react-native';
+import {TouchableOpacity, StyleSheet, View, Pressable} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {useActionSheet} from '@expo/react-native-action-sheet';
@@ -43,7 +37,6 @@ const LocationRenderItem: React.FC<RenderItemParams<Location>> = ({
   const isEditing = useTypedSelector(
     state => state.screens.locationsScreen.isEditing,
   );
-  const {setIsEditing} = useActions();
   const {colors} = useTheme();
   const {showActionSheetWithOptions} = useActionSheet();
 
@@ -65,7 +58,14 @@ const LocationRenderItem: React.FC<RenderItemParams<Location>> = ({
           borderTopLeftRadius: 16,
           borderTopRightRadius: 16,
           elevation: 6,
+          paddingBottom: 50,
         },
+        separatorStyle: {
+          height: 1,
+          backgroundColor: colors.border,
+          width: '100%',
+        },
+        showSeparators: true,
       },
       (selectedIndex?: number) => {
         switch (selectedIndex) {
@@ -82,7 +82,6 @@ const LocationRenderItem: React.FC<RenderItemParams<Location>> = ({
 
   const handleLocationPressed = () => {
     selectLocation(item);
-    setIsEditing(false);
     setIsManualLocationSelection(false);
     NavigationService.navigate(SCREENS.HOME);
   };
