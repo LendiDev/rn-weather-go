@@ -16,6 +16,7 @@ export const useStyles = () => {
       backgroundColor: colors.input,
       paddingLeft: PADDING_HORIZONTAL,
       paddingRight: PADDING_HORIZONTAL * 2,
+      paddingVertical: 0,
       borderRadius: 12,
       maxHeight: SEARCH_BAR_HEIGHT,
       minHeight: SEARCH_BAR_HEIGHT,

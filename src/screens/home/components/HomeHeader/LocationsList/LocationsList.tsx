@@ -5,6 +5,7 @@ import {useCallback, useRef, useState} from 'react';
 import {LayoutChangeEvent, View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useFocusEffect} from '@react-navigation/native';
+import {MARGIN_HORIZONTAL} from '../../../../../shared/constants';
 
 const LocationsList: React.FC = () => {
   const [itemScrollPositions, setItemScrollPositions] = useState<number[]>([]);
@@ -27,7 +28,7 @@ const LocationsList: React.FC = () => {
 
         setTimeout(() => {
           listRef.current?.scrollTo({
-            x: itemScrollPositions[index] - 15,
+            x: itemScrollPositions[index] - MARGIN_HORIZONTAL,
             y: 0,
             animated: true,
           });
