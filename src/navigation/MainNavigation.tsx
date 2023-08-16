@@ -63,7 +63,7 @@ const BottomNavigation = () => {
                   setIsEditing(!isEditing);
                 });
               }}>
-              <Text>{editButtonText}</Text>
+              <Text color={'primary'}>{editButtonText}</Text>
             </TouchableOpacity>
           ),
         }}

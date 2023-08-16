@@ -5,8 +5,7 @@ import {
   TextProps as RNTextProps,
   TextStyle,
 } from 'react-native';
-import {MyThemeColorsKeys} from '../../types';
-import {useTypedTheme} from '../../hooks/useTypedTheme';
+import {ExtendedTheme, useTheme} from '@react-navigation/native';
 
 interface TextProps extends RNTextProps {
   p?: boolean;
@@ -15,7 +14,7 @@ interface TextProps extends RNTextProps {
   bold?: boolean;
   weight?: TextStyle['fontWeight'];
   italic?: boolean;
-  color?: MyThemeColorsKeys;
+  color?: keyof ExtendedTheme['colors'];
   fontSize?: TextStyle['fontSize'];
   style?: StyleProp<TextStyle> | Array<StyleProp<TextStyle>>;
   children?: React.ReactNode;
@@ -35,7 +34,7 @@ const Text: React.FC<TextProps> = ({
   children,
   value,
 }) => {
-  const {colors} = useTypedTheme();
+  const {colors} = useTheme();
 
   const styles = {
     default: StyleSheet.flatten<TextStyle>({

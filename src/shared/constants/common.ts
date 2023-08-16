@@ -1,4 +1,4 @@
-export const PADDING_HORIZONTAL = 16;
+export const PADDING_HORIZONTAL = 17;
 export const PADDING_VERTICAL = 5;
 
 export const MARGIN_HORIZONTAL = PADDING_HORIZONTAL;

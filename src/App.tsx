@@ -12,7 +12,7 @@ import {persistStore} from 'redux-persist';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {enableScreens} from 'react-native-screens';
 import {customTheme} from './themes/customTheme';
-import {useEffect} from 'react';
+import {ActionSheetProvider} from '@expo/react-native-action-sheet';
 
 enableScreens();
 
@@ -24,31 +24,33 @@ function App(): JSX.Element {
 
   const persistor = persistStore(store);
 
-  useEffect((): any => {
-    return () => (isReadyRef.current = false);
-  }, []);
-
   return (
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <SafeAreaProvider>
-          <GestureHandlerRootView style={{flex: 1}}>
-            <NavigationContainer
-              ref={navigationRef}
-              onReady={() => {
-                isReadyRef.current = true;
-              }}
-              theme={theme}>
-              <StatusBar
-                backgroundColor={theme.colors.background}
-                barStyle={statusBarStyle}
-              />
-              <MainNavigation />
-            </NavigationContainer>
-          </GestureHandlerRootView>
-        </SafeAreaProvider>
-      </PersistGate>
-    </Provider>
+    <>
+      <StatusBar
+        backgroundColor="transparent"
+        translucent
+        barStyle={statusBarStyle}
+        animated={true}
+      />
+      <ActionSheetProvider>
+        <Provider store={store}>
+          <PersistGate persistor={persistor}>
+            <SafeAreaProvider>
+              <GestureHandlerRootView style={{flex: 1}}>
+                <NavigationContainer
+                  ref={navigationRef}
+                  onReady={() => {
+                    isReadyRef.current = true;
+                  }}
+                  theme={theme}>
+                  <MainNavigation />
+                </NavigationContainer>
+              </GestureHandlerRootView>
+            </SafeAreaProvider>
+          </PersistGate>
+        </Provider>
+      </ActionSheetProvider>
+    </>
   );
 }
 

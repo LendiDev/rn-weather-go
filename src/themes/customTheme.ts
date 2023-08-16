@@ -8,5 +8,7 @@ export const customTheme = {
     background: 'white',
     card: 'white',
     input: '#eee',
+    destructive: '#FF453A',
+    inactive: '#8E8E8F',
   },
 };
