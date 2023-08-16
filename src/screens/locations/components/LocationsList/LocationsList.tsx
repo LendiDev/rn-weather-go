@@ -150,8 +150,8 @@ const LocationRenderItem: React.FC<RenderItemParams<Location>> = ({
             <Pressable
               hitSlop={8}
               onPressIn={drag}
-              disabled={isActive}
-              delayLongPress={0}
+              // disabled={isActive}
+              // delayLongPress={0}
               style={styles.dragButton}>
               <MaterialIcon size={22} name="drag-indicator" />
             </Pressable>
@@ -171,6 +171,7 @@ const LocationsList: React.FC = () => {
   return (
     <View style={styles.mainContainer}>
       <DraggableFlatList
+        bounces={false}
         onDragEnd={({data}: {data: Location[]}) => reorderLocations(data)}
         contentContainerStyle={{paddingBottom: 85, paddingTop: 5}}
         data={savedLocations || []}

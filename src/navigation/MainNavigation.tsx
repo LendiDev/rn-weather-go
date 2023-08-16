@@ -66,6 +66,7 @@ const BottomNavigation = () => {
           lazy: false,
           headerRight: () => (
             <TouchableOpacity
+              hitSlop={10}
               style={{paddingRight: PADDING_HORIZONTAL}}
               onPress={() => {
                 requestAnimationFrame(() => {
