@@ -36,7 +36,6 @@ const SearchLocationsScreen = () => {
       <SearchLocationsList
         debouncedSearchTerm={debouncedSearchTerm}
         searchValue={searchTerm}
-        isSearching={true}
         setIsLoading={setIsLoading}
       />
     </View>

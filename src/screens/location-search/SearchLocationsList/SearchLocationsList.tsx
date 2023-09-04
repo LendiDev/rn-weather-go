@@ -1,38 +1,35 @@
-import SearchLocationsItem from './SearchLocationsItem/SearchLocationsItem';
-import {FlatList, Text, View} from 'react-native';
-import {useGetLocationsQuery} from '../../../store/api/locationSuggestions.api';
-import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
+import {FlatList, View} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {useEffect, useMemo} from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+
 import {createStyles} from './SearchLocationsList.styles';
-import {useTypedSelector} from '../../../hooks/useTypedSelector';
+import SearchLocationsItem from './SearchLocationsItem/SearchLocationsItem';
+import ErrorMessage from './ErrorMessage';
+import {useGetLocationsQuery} from '../../../store/api/locationSuggestions.api';
 
 interface SearchLocationsListProps {
   debouncedSearchTerm: string;
   searchValue: string;
-  isSearching: boolean;
   setIsLoading: (loading: boolean) => void;
 }
 
 const SearchLocationsList: React.FC<SearchLocationsListProps> = ({
   debouncedSearchTerm,
   searchValue,
-  isSearching,
   setIsLoading,
 }) => {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const styles = useMemo(() => createStyles(theme, insets), [theme, insets]);
 
-  const {isSearchingFromHome} = useTypedSelector(
-    state => state.screens.locationsScreen,
-  );
   const {
     isLoading,
     data: locations,
     error,
+    isError,
     isFetching,
+    refetch,
   } = useGetLocationsQuery(debouncedSearchTerm);
 
   const suggestions = locations?.suggestions || [];
@@ -43,19 +40,12 @@ const SearchLocationsList: React.FC<SearchLocationsListProps> = ({
   }, [isFetching]);
 
   return (
-    <View
-      style={styles.contentContainer}
-      pointerEvents={isSearching ? 'auto' : 'none'}>
-      {isSearching && (
-        <Animated.View
-          exiting={FadeOut}
-          entering={isSearchingFromHome ? undefined : FadeIn}
-          style={styles.backdrop}
-        />
-      )}
-      {error && <Text>{error.toString()}</Text>}
-      {searchValue.length > 0 && (
-        <Animated.View exiting={FadeOut} style={styles.listContainer}>
+    <View style={styles.contentContainer}>
+      {isError ? (
+        <ErrorMessage error={error} onTryAgain={refetch} />
+      ) : (
+        searchValue.length > 0 &&
+        !isFetching && (
           <FlatList
             keyExtractor={item => item.locationId}
             data={suggestions}
@@ -68,7 +58,7 @@ const SearchLocationsList: React.FC<SearchLocationsListProps> = ({
               />
             )}
           />
-        </Animated.View>
+        )
       )}
     </View>
   );

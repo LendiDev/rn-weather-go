@@ -86,7 +86,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
             <TouchableOpacity
               style={styles.cancelButton}
               onPress={handleSearchCancel}>
-              <Text>Cancel</Text>
+              <Text color="primary">Cancel</Text>
             </TouchableOpacity>
           </View>
         </>
