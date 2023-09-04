@@ -17,6 +17,8 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {enableScreens} from 'react-native-screens';
 import {customTheme} from './themes/customTheme';
 import {ActionSheetProvider} from '@expo/react-native-action-sheet';
+import {MMKV} from 'react-native-mmkv';
+import {initializeMMKVFlipper} from 'react-native-mmkv-flipper-plugin';
 
 enableScreens();
 
@@ -27,6 +29,13 @@ function App(): JSX.Element {
     scheme === 'dark' ? 'light-content' : 'dark-content';
 
   const persistor = persistStore(store);
+
+  const storage = new MMKV();
+
+  // add this line inside your App.tsx
+  if (__DEV__) {
+    initializeMMKVFlipper({default: storage});
+  }
 
   return (
     <>

@@ -93,7 +93,7 @@ const LocationRenderItem: React.FC<RenderItemParams<Location>> = ({
       marginTop: PADDING_VERTICAL,
       marginLeft: MARGIN_HORIZONTAL,
       paddingRight: PADDING_HORIZONTAL,
-      backgroundColor: 'white',
+      backgroundColor: colors.card,
       height: 55,
       borderBottomColor: colors.border,
       borderBottomWidth: 1,
