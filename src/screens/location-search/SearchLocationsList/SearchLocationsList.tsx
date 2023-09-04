@@ -7,16 +7,15 @@ import {createStyles} from './SearchLocationsList.styles';
 import SearchLocationsItem from './SearchLocationsItem/SearchLocationsItem';
 import ErrorMessage from './ErrorMessage';
 import {useGetLocationsQuery} from '../../../store/api/locationSuggestions.api';
+import {KeyboardSpacer} from '../../../components/ui/KeyboardSpacer';
 
 interface SearchLocationsListProps {
   debouncedSearchTerm: string;
-  searchValue: string;
   setIsLoading: (loading: boolean) => void;
 }
 
 const SearchLocationsList: React.FC<SearchLocationsListProps> = ({
   debouncedSearchTerm,
-  searchValue,
   setIsLoading,
 }) => {
   const theme = useTheme();
@@ -44,7 +43,7 @@ const SearchLocationsList: React.FC<SearchLocationsListProps> = ({
       {isError ? (
         <ErrorMessage error={error} onTryAgain={refetch} />
       ) : (
-        searchValue.length > 0 &&
+        suggestions.length > 0 &&
         !isFetching && (
           <FlatList
             keyExtractor={item => item.locationId}
@@ -60,6 +59,7 @@ const SearchLocationsList: React.FC<SearchLocationsListProps> = ({
           />
         )
       )}
+      <KeyboardSpacer />
     </View>
   );
 };

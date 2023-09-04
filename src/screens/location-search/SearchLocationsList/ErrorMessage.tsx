@@ -5,6 +5,7 @@ import {
   Platform,
   StyleSheet,
   TouchableOpacity,
+  View,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 
@@ -45,9 +46,7 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({error, onTryAgain}) => {
   });
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <View style={styles.container}>
       <Text>{errorText}</Text>
       <TouchableOpacity
         onPress={onTryAgain}
@@ -55,7 +54,7 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({error, onTryAgain}) => {
         hitSlop={20}>
         <Text color="card">Try again</Text>
       </TouchableOpacity>
-    </KeyboardAvoidingView>
+    </View>
   );
 };
 

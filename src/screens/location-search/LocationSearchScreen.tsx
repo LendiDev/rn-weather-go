@@ -1,4 +1,5 @@
 import {View} from 'react-native';
+
 import {SearchBar} from '../../components';
 import {SearchLocationsList} from '../locations/components';
 import {useTypedSelector} from '../../hooks/useTypedSelector';
@@ -35,7 +36,6 @@ const SearchLocationsScreen = () => {
       </View>
       <SearchLocationsList
         debouncedSearchTerm={debouncedSearchTerm}
-        searchValue={searchTerm}
         setIsLoading={setIsLoading}
       />
     </View>
