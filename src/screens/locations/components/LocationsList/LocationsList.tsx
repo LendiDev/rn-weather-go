@@ -90,11 +90,10 @@ const LocationRenderItem: React.FC<RenderItemParams<Location>> = ({
     mainContainer: {
       flexDirection: 'row',
       alignItems: 'center',
-      marginTop: PADDING_VERTICAL,
+      paddingVertical: PADDING_VERTICAL * 2,
       marginLeft: MARGIN_HORIZONTAL,
       paddingRight: PADDING_HORIZONTAL,
       backgroundColor: colors.card,
-      height: 55,
       borderBottomColor: colors.border,
       borderBottomWidth: 1,
     },
@@ -147,12 +146,7 @@ const LocationRenderItem: React.FC<RenderItemParams<Location>> = ({
         </TouchableOpacity>
         {isEditing && (
           <Animated.View entering={SlideInRight} exiting={SlideOutRight}>
-            <Pressable
-              hitSlop={8}
-              onPressIn={drag}
-              // disabled={isActive}
-              // delayLongPress={0}
-              style={styles.dragButton}>
+            <Pressable hitSlop={8} onPressIn={drag} style={styles.dragButton}>
               <MaterialIcon size={22} name="drag-indicator" />
             </Pressable>
           </Animated.View>

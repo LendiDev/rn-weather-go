@@ -12,6 +12,7 @@ import {SCREENS} from '../shared/screens';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import React, {useState} from 'react';
 
 const BottomTabStack = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -35,13 +36,28 @@ export const MainNavigation: React.FC = () => {
   );
 };
 
-const BottomNavigation = () => {
+const EditButton: React.FC<{}> = () => {
   const isEditing = useTypedSelector(
     state => state.screens.locationsScreen.isEditing,
   );
   const {setIsEditing} = useActions();
   const editButtonText = isEditing ? 'Done' : 'Edit';
 
+  const handleEditPressed = () => {
+    setIsEditing(!isEditing);
+  };
+
+  return (
+    <TouchableOpacity
+      hitSlop={10}
+      style={{paddingRight: PADDING_HORIZONTAL}}
+      onPress={handleEditPressed}>
+      <Text color={'primary'}>{editButtonText}</Text>
+    </TouchableOpacity>
+  );
+};
+
+const BottomNavigation = () => {
   return (
     <BottomTabStack.Navigator
       screenOptions={{
@@ -64,18 +80,7 @@ const BottomNavigation = () => {
         component={LocationsScreen}
         options={{
           lazy: false,
-          headerRight: () => (
-            <TouchableOpacity
-              hitSlop={10}
-              style={{paddingRight: PADDING_HORIZONTAL}}
-              onPress={() => {
-                requestAnimationFrame(() => {
-                  setIsEditing(!isEditing);
-                });
-              }}>
-              <Text color={'primary'}>{editButtonText}</Text>
-            </TouchableOpacity>
-          ),
+          headerRight: EditButton,
           tabBarLabelStyle: {marginBottom: 5},
           tabBarIcon: ({color}) => (
             <SimpleLineIcons name="globe" size={22.5} color={color} />

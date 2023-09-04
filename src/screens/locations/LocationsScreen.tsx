@@ -1,6 +1,6 @@
 import * as NavigationService from 'react-navigation-helpers';
 import React, {useEffect, useMemo} from 'react';
-import {TouchableOpacity} from 'react-native';
+import {Pressable} from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {useNavigation, useTheme} from '@react-navigation/native';
 
@@ -27,13 +27,13 @@ const LocationsScreen: React.FC = () => {
   return (
     <>
       <LocationsList />
-      <TouchableOpacity
+      <Pressable
         style={styles.fab}
         onPress={() => {
           NavigationService.navigate(SCREENS.LOCATION_SEARCH);
         }}>
-        <FeatherIcon size={24} color={'white'} name="plus" />
-      </TouchableOpacity>
+        <FeatherIcon size={24} color={theme.colors.border} name="plus" />
+      </Pressable>
     </>
   );
 };
