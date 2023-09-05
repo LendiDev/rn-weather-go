@@ -165,7 +165,7 @@ const LocationsList: React.FC = () => {
   return (
     <View style={styles.mainContainer}>
       <DraggableFlatList
-        bounces={false}
+        // bounces={false}
         onDragEnd={({data}: {data: Location[]}) => reorderLocations(data)}
         contentContainerStyle={{paddingBottom: 85, paddingTop: 5}}
         data={savedLocations || []}

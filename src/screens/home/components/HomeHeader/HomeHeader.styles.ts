@@ -12,7 +12,7 @@ export const createStyles = (theme: ExtendedTheme, insets: EdgeInsets) => {
   return StyleSheet.create({
     root: {
       position: 'absolute',
-      top: insets.top,
+      top: insets.top + 2.5,
       left: 0,
       right: 0,
       height: MAIN_HEADER_HEIGHT,
