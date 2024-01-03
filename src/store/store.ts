@@ -14,8 +14,11 @@ import {
   persistReducer,
 } from 'redux-persist';
 import {reduxStorage} from './storage';
+
 import {autocompleteApi} from './api/locationSuggestions.api';
 import {geocodeApi} from './api/locationGeocode.api';
+import {weatherApi} from './api/weatherKit.api';
+
 import {locationsScreen} from './screens/locationsScreen.slice';
 import {homeScreenSlice} from './screens/homeScreen.slice';
 
@@ -26,6 +29,7 @@ const persistConfig = {
   whitelist: ['locations'],
 };
 const middlewares: ThunkMiddleware[] = [
+  weatherApi.middleware,
   autocompleteApi.middleware,
   geocodeApi.middleware,
 ];
@@ -39,6 +43,7 @@ const reducers = combineReducers({
   locations: locationsReducer,
   [autocompleteApi.reducerPath]: autocompleteApi.reducer,
   [geocodeApi.reducerPath]: geocodeApi.reducer,
+  [weatherApi.reducerPath]: weatherApi.reducer,
   screens: combineReducers({
     locationsScreen: locationsScreen.reducer,
     homeScreen: homeScreenSlice.reducer,

@@ -1,11 +1,9 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {HereLocationGeocode} from '../../types/hereAPI.types';
-import {LOCATION_GEOCODE_API_URL, HERE_API_KEY} from '@env';
+import {HERE_API_KEY} from '@env';
 import {Coordinates} from '../../types/location.types';
 
-if (!LOCATION_GEOCODE_API_URL) {
-  throw Error('env LOCATION_GEOCODE_API_URL not set');
-}
+const LOCATION_GEOCODE_API_URL = 'https://geocoder.ls.hereapi.com/6.2';
 
 export const geocodeApi = createApi({
   reducerPath: 'locationGeocode',

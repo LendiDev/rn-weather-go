@@ -1,19 +1,18 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {HereLocationSuggestions} from '../../types/hereAPI.types';
-import {LOCATION_AUTOCOMPLETE_API_URL, HERE_API_KEY} from '@env';
+import {HERE_API_KEY} from '@env';
 
-if (!LOCATION_AUTOCOMPLETE_API_URL) {
-  throw Error('env LOCATION_AUTOCOMPLETE_API_URL not set');
-}
 if (!HERE_API_KEY) {
   throw Error('env HERE_API_KEY not set');
 }
+
+const AUTOCOMPLETE_API_URL = 'https://autocomplete.geocoder.ls.hereapi.com/6.2';
 
 export const autocompleteApi = createApi({
   reducerPath: 'locationAutocomplete',
   tagTypes: ['autocomplete'],
   baseQuery: fetchBaseQuery({
-    baseUrl: LOCATION_AUTOCOMPLETE_API_URL,
+    baseUrl: AUTOCOMPLETE_API_URL,
   }),
   keepUnusedDataFor: 3600,
   endpoints: builder => ({
