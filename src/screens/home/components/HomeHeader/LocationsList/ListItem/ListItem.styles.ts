@@ -15,6 +15,7 @@ export const createStyles = (theme: ExtendedTheme) => {
       paddingHorizontal: PADDING_HORIZONTAL,
       backgroundColor: colors.background,
       justifyContent: 'center',
+      maxWidth: 250,
       height: 35,
     },
     active: {

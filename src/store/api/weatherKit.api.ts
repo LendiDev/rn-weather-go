@@ -4,11 +4,12 @@ import {Coordinates} from '../../types';
 
 export const weatherApi = createApi({
   reducerPath: 'weatherApi',
+  refetchOnMountOrArgChange: 60,
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:3000/api/v1/weatherkit',
+    baseUrl: 'http://192.168.1.18:3000/api/v1/weatherkit',
   }),
   endpoints: builder => ({
-    getWeather: builder.query<Weather, Coordinates>({
+    getWeather: builder.query<Weather, Partial<Coordinates>>({
       query: ({latitude, longitude}) => ({
         method: 'GET',
         url: `/${latitude}/${longitude}`,

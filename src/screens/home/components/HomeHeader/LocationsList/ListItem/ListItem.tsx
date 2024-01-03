@@ -28,7 +28,10 @@ const ListItem: React.FC<ListItemProps> = ({item, selectedLocation}) => {
       style={[styles.root, isSelected && styles.active]}
       onPress={handleLocationSelection}
       disabled={isSelected}>
-      <Text color={isSelected ? 'primary' : 'inactive'}>
+      <Text
+        numberOfLines={1}
+        ellipsizeMode="head"
+        color={isSelected ? 'primary' : 'inactive'}>
         {item.displayName}
       </Text>
     </TouchableOpacity>
